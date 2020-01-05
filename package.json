@@ -1,6 +1,6 @@
 {
   "name": "homebridge-appletv",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Plugin for controlling Apple TVs in homebridge.",
   "license": "MIT",
   "keywords": [

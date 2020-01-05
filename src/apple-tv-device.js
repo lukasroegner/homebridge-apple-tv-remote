@@ -130,9 +130,10 @@ function AppleTvDevice(platform, config, credentials, appleTv) {
         }
 
         // Subscribes for messages
-        appleTv.on('message', function(message) {
-            console.log(message);
-        });
+        // TODO
+        //appleTv.on('message', function(message) {
+        //    console.log(message);
+        //});
     }
 }
 
