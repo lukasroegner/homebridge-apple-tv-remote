@@ -1,0 +1,26 @@
+{
+  "name": "homebridge-appletv",
+  "version": "0.1.0",
+  "description": "Plugin for controlling Apple TVs in homebridge.",
+  "license": "MIT",
+  "keywords": [
+    "homebridge-plugin",
+    "homebridge",
+    "homebridge-appletv",
+    "node-appletv"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lukasroegner/homebridge-appletv.git"
+  },
+  "dependencies": {
+    "node-appletv": "https://github.com/GioCirque/node-appletv.git"
+  },
+  "bugs": {
+    "url": "http://github.com/lukasroegner/homebridge-appletv/issues"
+  },
+  "engines": {
+    "node": ">=0.12.0",
+    "homebridge": ">=0.2.0"
+  }
+}
