@@ -1,5 +1,5 @@
 
-const appletv = require('node-appletv');
+const appletv = require('node-appletv-x');
 
 /**
  * Represents a physical Apple TV device.

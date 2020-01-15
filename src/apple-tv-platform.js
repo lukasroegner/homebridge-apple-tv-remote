@@ -1,5 +1,5 @@
 
-const appletv = require('node-appletv');
+const appletv = require('node-appletv-x');
 
 const AppleTvDevice = require('./apple-tv-device');
 const AppleTvApi = require('./apple-tv-api');
