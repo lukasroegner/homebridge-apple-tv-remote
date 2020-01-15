@@ -18,13 +18,13 @@ On macOS, the following dependencies may be required:
 brew install libtool autoconf automake
 ```
 
-Now you can install the package `node-appletv` that contains a command line tool to create the credentials for each Apple TV you want to use:
+Now you can install the package `node-appletv-x` that contains a command line tool to create the credentials for each Apple TV you want to use:
 
 ```
-sudo npm install -g https://github.com/GioCirque/node-appletv.git --unsafe-perm
+npm install -g node-appletv-x --unsafe-perm
 ```
 
-On macOS, `sudo` may be required to install `node-appletv`.
+On macOS, `sudo` may be required to install `node-appletv-x`.
 
 After the installation is completed, use the `appletv pair` command to scan for your Apple TVs in the local network and generate credentials for each of them.
 
@@ -36,7 +36,7 @@ Please install the plugin with the following command:
 npm install -g https://github.com/lukasroegner/homebridge-appletv.git --unsafe-perm
 ```
 
-On macOS, `sudo` may be required to install `node-appletv`.
+On macOS, `sudo` may be required to install `node-appletv-x`.
 
 ## Configuration
 
@@ -142,7 +142,11 @@ Each command string can be any of following keys:
 
 # Hints
 
-If you have issues while installing `node-appletv`, please check out the following links, which might be useful:
+If you have issues while installing `node-appletv-x`, please check out the following links, which might be useful:
 
 * https://github.com/evandcoleman/node-appletv/issues/31#issuecomment-544717939
 * https://github.com/nodejs/node-gyp/issues/569
+
+# Special Thanks
+
+Special thanks to stickpin who updated and fixed the original `node-appletv` package.
