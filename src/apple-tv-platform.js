@@ -40,7 +40,6 @@ function AppleTvPlatform(log, config, api) {
   platform.config.apiPort = platform.config.apiPort || 40304;
   platform.config.apiToken = platform.config.apiToken || null;
   platform.config.scanTimeout = 10;
-  platform.config.updateInterval = 10;
 
   // Checks whether the API object is available
   if (!api) {

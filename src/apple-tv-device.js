@@ -133,9 +133,24 @@ function AppleTvDevice(platform, config, credentials, appleTv) {
 
         // Starts getting playback information
         appleTv.on('message', function(message) {
-            if (message.payload && message.payload.playbackState) {
-                platform.log(device.uniqueIdentifier + ' - Update Play State to ' + message.payload.playbackState);
-                playPauseSwitchService.updateCharacteristic(Characteristic.On, message.payload.playbackState === 1);
+
+            // Updates the play state
+            if (message.payload && typeof message.payload.playbackState !== 'undefined') {
+                if (playPauseSwitchService) {
+                    platform.log(device.uniqueIdentifier + ' - Update Play State to ' + message.payload.playbackState);
+                    playPauseSwitchService.updateCharacteristic(Characteristic.On, message.payload.playbackState === 1);
+                }
+            }
+
+            // Updates the on/off state
+            if (message.payload && typeof message.payload.logicalDeviceCount !== 'undefined') {
+                platform.log(device.uniqueIdentifier + ' - Update Standby State to ' + message.payload.logicalDeviceCount);
+                if (onOffSwitchService) {
+                    onOffSwitchService.updateCharacteristic(Characteristic.On, message.payload.logicalDeviceCount > 0);
+                }
+                if (playPauseSwitchService && message.payload.logicalDeviceCount == 0) {
+                    playPauseSwitchService.updateCharacteristic(Characteristic.On, false);
+                }
             }
         });
     }
