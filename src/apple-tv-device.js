@@ -127,13 +127,34 @@ function AppleTvDevice(platform, config, credentials, appleTv) {
                 // Performs the callback
                 callback(null);
             });
+
+            // Starts getting playback information
+            appleTv.on('nowPlaying', function(info) {
+                if (info.playbackState === 'playing') {
+                    playPauseSwitchService.updateCharacteristic(Characteristic.On, true);
+                } else {
+                    playPauseSwitchService.updateCharacteristic(Characteristic.On, false);
+                }
+            });
         }
 
-        // Subscribes for messages
-        // TODO
-        //appleTv.on('message', function(message) {
-        //    console.log(message);
-        //});
+        // Starts getting updates from the Apple TV
+        setTimeout(function() {
+            appleTv.sendIntroduction().then(function (info) {
+                if (info.payload.logicalDeviceCount > 0) {
+                    if (onOffSwitchService) {
+                        onOffSwitchService.updateCharacteristic(Characteristic.On, true);
+                    }
+                } else {
+                    if (onOffSwitchService) {
+                        onOffSwitchService.updateCharacteristic(Characteristic.On, false);
+                    }
+                    if (playPauseSwitchService) {
+                        playPauseSwitchService.updateCharacteristic(Characteristic.On, false);
+                    }
+                }
+            });
+        }, platform.config.updateInterval);
     }
 }
 
