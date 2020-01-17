@@ -93,6 +93,7 @@ function AppleTvDevice(platform, config, credentials, appleTv) {
         // Subscribes for changes of the on/off switch
         if (onOffSwitchService) {
             onOffSwitchService.getCharacteristic(Characteristic.On).on('set', function (value, callback) {
+                platform.log(device.uniqueIdentifier + ' - Switch Power to ' + (value ? 'ON' : 'OFF'));
 
                 // Sends the command to the Apple TV
                 const usage = platform.getUsage('topmenu');
@@ -116,6 +117,7 @@ function AppleTvDevice(platform, config, credentials, appleTv) {
         // Subscribes for changes of the play/pause switch
         if (playPauseSwitchService) {
             playPauseSwitchService.getCharacteristic(Characteristic.On).on('set', function (value, callback) {
+                platform.log(device.uniqueIdentifier + ' - Switch Play State to ' + (value ? 'Play' : 'Pause'));
 
                 // Sends the command to the Apple TV
                 if (value) {
@@ -129,11 +131,28 @@ function AppleTvDevice(platform, config, credentials, appleTv) {
             });
         }
 
-        // Subscribes for messages
-        // TODO
-        //appleTv.on('message', function(message) {
-        //    console.log(message);
-        //});
+        // Starts getting playback information
+        appleTv.on('message', function(message) {
+
+            // Updates the play state
+            if (message.payload && typeof message.payload.playbackState !== 'undefined') {
+                if (playPauseSwitchService) {
+                    platform.log(device.uniqueIdentifier + ' - Update Play State to ' + message.payload.playbackState);
+                    playPauseSwitchService.updateCharacteristic(Characteristic.On, message.payload.playbackState === 1);
+                }
+            }
+
+            // Updates the on/off state
+            if (message.payload && typeof message.payload.logicalDeviceCount !== 'undefined') {
+                platform.log(device.uniqueIdentifier + ' - Update Standby State to ' + message.payload.logicalDeviceCount);
+                if (onOffSwitchService) {
+                    onOffSwitchService.updateCharacteristic(Characteristic.On, message.payload.logicalDeviceCount > 0);
+                }
+                if (playPauseSwitchService && message.payload.logicalDeviceCount == 0) {
+                    playPauseSwitchService.updateCharacteristic(Characteristic.On, false);
+                }
+            }
+        });
     }
 }
 
