@@ -98,15 +98,19 @@ function AppleTvDevice(platform, config, credentials, appleTv) {
                 // Sends the command to the Apple TV
                 const usage = platform.getUsage('topmenu');
                 if (value) {
-                    appleTv.sendKeyPressAndRelease(usage.usePage, usage.usage);
+                    if (!onOffSwitchService.getCharacteristic(Characteristic.On).value) {
+                        appleTv.sendKeyPressAndRelease(usage.usePage, usage.usage);
+                    }
                 } else {
-                    appleTv.sendKeyPress(usage.usePage, usage.usage, true).then(function() { 
-                        setTimeout(function() {
-                            appleTv.sendKeyPress(usage.usePage, usage.usage, false).then(function() { 
-                                appleTv.sendKeyCommand(appletv.AppleTV.Key.Select);
-                            });
-                        }, 1000);
-                    });
+                    if (onOffSwitchService.getCharacteristic(Characteristic.On).value) {
+                        appleTv.sendKeyPress(usage.usePage, usage.usage, true).then(function() { 
+                            setTimeout(function() {
+                                appleTv.sendKeyPress(usage.usePage, usage.usage, false).then(function() { 
+                                    appleTv.sendKeyCommand(appletv.AppleTV.Key.Select);
+                                });
+                            }, 1000);
+                        });
+                    }
                 }
 
                 // Performs the callback
