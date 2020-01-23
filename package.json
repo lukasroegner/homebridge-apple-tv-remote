@@ -1,5 +1,5 @@
 {
-  "name": "homebridge-appletv",
+  "name": "@lukas.roegner/homebridge-appletv",
   "version": "0.3.3",
   "description": "Plugin for controlling Apple TVs in homebridge.",
   "license": "MIT",
