@@ -33,7 +33,7 @@ After the installation is completed, use the `appletv pair` command to scan for 
 Please install the plugin with the following command:
 
 ```
-npm install -g homebridge-appletv --unsafe-perm
+npm install -g @lukas.roegner/homebridge-appletv --unsafe-perm
 ```
 
 On macOS, `sudo` may be required to install `node-appletv-x`.
