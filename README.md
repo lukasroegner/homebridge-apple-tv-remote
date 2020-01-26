@@ -1,4 +1,4 @@
-# homebridge-appletv
+# homebridge-apple-tv-remote
 
 Plugin for controlling Apple TVs in homebridge. Each Apple TV can be turned on/off via a switch. Additionally, a play/pause switch is exposed to HomeKit.
 
@@ -33,10 +33,10 @@ After the installation is completed, use the `appletv pair` command to scan for 
 Please install the plugin with the following command:
 
 ```
-npm install -g @lukas.roegner/homebridge-appletv --unsafe-perm
+npm install -g homebridge-apple-tv-remote --unsafe-perm
 ```
 
-On macOS, `sudo` may be required to install `node-appletv-x`.
+On macOS, `sudo` may be required to install `homebridge-apple-tv-remote`.
 
 ## Configuration
 

@@ -1,23 +1,23 @@
 {
-  "name": "@lukas.roegner/homebridge-appletv",
-  "version": "0.3.3",
+  "name": "homebridge-apple-tv-remote",
+  "version": "0.3.5",
   "description": "Plugin for controlling Apple TVs in homebridge.",
   "license": "MIT",
   "keywords": [
     "homebridge-plugin",
     "homebridge",
-    "homebridge-appletv",
+    "homebridge-apple-tv",
     "node-appletv"
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/lukasroegner/homebridge-appletv.git"
+    "url": "git://github.com/lukasroegner/homebridge-apple-tv-remote.git"
   },
   "dependencies": {
     "node-appletv-x": "^1.0.13"
   },
   "bugs": {
-    "url": "http://github.com/lukasroegner/homebridge-appletv/issues"
+    "url": "http://github.com/lukasroegner/homebridge-apple-tv-remote/issues"
   },
   "engines": {
     "node": ">=0.12.0",
