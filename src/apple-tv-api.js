@@ -129,25 +129,14 @@ AppleTvApi.prototype.handlePost = function (appleTv, body, response) {
             if (command.wait) {
                 setTimeout(function() { commandHandler(); }, command.wait);
             } else {
-
-                // Gets the usage
-                const usage = api.platform.getUsage(command.key);
                 if (!command.longPress) {
-                    appleTv.appleTv.sendKeyPressAndRelease(usage.usePage, usage.usage).then(function() { commandHandler(); }, function() {
+                    appleTv.pressKey(command.key).then(function() { commandHandler(); }, function() {
                         api.platform.log('Error while executing commands.');
                         response.statusCode = 400;
                         response.end();
                     });
                 } else {
-                    appleTv.appleTv.sendKeyPress(usage.usePage, usage.usage, true).then(function() { 
-                        setTimeout(function() {
-                            appleTv.appleTv.sendKeyPress(usage.usePage, usage.usage, false).then(function() { commandHandler(); }, function() {
-                                api.platform.log('Error while executing commands.');
-                                response.statusCode = 400;
-                                response.end();
-                            });
-                        }, 1000);
-                     }, function() {
+                    appleTv.longPressKey(command.key).then(function() { commandHandler(); }, function() {
                         api.platform.log('Error while executing commands.');
                         response.statusCode = 400;
                         response.end();
