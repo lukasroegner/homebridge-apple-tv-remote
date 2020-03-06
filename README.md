@@ -6,25 +6,11 @@ Plugin for controlling Apple TVs in homebridge. Each Apple TV can be turned on/o
 
 Before installing the plugin, credentials must be created for each Apple TV. 
 
-On Linux systems, the following dependencies may be required:
+You can install the package `node-appletv-x` that contains a command line tool to create the credentials for each Apple TV you want to use:
 
 ```
-sudo apt-get install libtool autoconf automake
+npm install -g node-appletv-x
 ```
-
-On macOS, the following dependencies may be required:
-
-```
-brew install libtool autoconf automake
-```
-
-Now you can install the package `node-appletv-x` that contains a command line tool to create the credentials for each Apple TV you want to use:
-
-```
-npm install -g node-appletv-x --unsafe-perm
-```
-
-On macOS, `sudo` may be required to install `node-appletv-x`.
 
 After the installation is completed, use the `appletv pair` command to scan for your Apple TVs in the local network and generate credentials for each of them.
 
@@ -33,10 +19,8 @@ After the installation is completed, use the `appletv pair` command to scan for 
 Please install the plugin with the following command:
 
 ```
-npm install -g homebridge-apple-tv-remote --unsafe-perm
+npm install -g homebridge-apple-tv-remote
 ```
-
-On macOS, `sudo` may be required to install `homebridge-apple-tv-remote`.
 
 ## Configuration
 
@@ -91,6 +75,22 @@ The token has to be specified as value of the `Authorization` header on each req
 Authorization: <YOUR-TOKEN>
 ```
 
+### API - Get State
+
+Use the `/<UNIQUE-NAME>` endpoint to get the state of an Apple TV. The HTTP method has to be `GET`:
+```
+http://<YOUR-HOST-IP-ADDRESS>:<apiPort>/<UNIQUE-NAME>
+```
+
+The response body will be JSON:
+
+```
+{
+    "isOn": true|false,
+    "isPlaying": true|false
+}
+```
+
 ### API - Send Commands
 
 Use the `/<UNIQUE-NAME>` endpoint to send commands to an Apple TV. The HTTP method has to be `POST`:
@@ -102,6 +102,8 @@ The body of the request has to be JSON in the following format:
 
 ```
 {
+    "isOn": true|false,
+    "isPlaying": true|false,
     "commands": [
         {
             "key": "<COMMAND1>",
@@ -117,6 +119,8 @@ The body of the request has to be JSON in the following format:
     ]
 }
 ```
+
+All properties to be set are optional (e.g. you can only send `isOn` as property).
 
 Each command string can be any of following keys:
 
@@ -138,14 +142,7 @@ Each command string can be any of following keys:
 * `volumedown`
 * `select`
 
- Commands are executed sequentially. Use `wait` to wait before sending the next command.
-
-# Hints
-
-If you have issues while installing `node-appletv-x`, please check out the following links, which might be useful:
-
-* https://github.com/evandcoleman/node-appletv/issues/31#issuecomment-544717939
-* https://github.com/nodejs/node-gyp/issues/569
+Commands are executed sequentially. Use `wait` to wait before sending the next command.
 
 # Special Thanks
 
