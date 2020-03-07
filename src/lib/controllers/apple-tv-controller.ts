@@ -16,7 +16,7 @@ export class AppleTvController {
      * @param client The client that is used to communicate with the Apple TV.
      */
     constructor(platform: Platform, deviceConfiguration: DeviceConfiguration, client: AppleTvClient) {
-        platform.logger.debug(`[${deviceConfiguration.name}] Initializing...`);
+        platform.logger.info(`[${deviceConfiguration.name}] Initializing...`);
 
         // Configures the client for event emitting
         client.areEventsEnabled = true;
@@ -33,7 +33,7 @@ export class AppleTvController {
 
         // Creates the On/Off switch if requested
         if (deviceConfiguration.isOnOffSwitchEnabled) {
-            platform.logger.debug(`[${deviceConfiguration.name}] Adding on/off switch`);
+            platform.logger.info(`[${deviceConfiguration.name}] Adding on/off switch`);
             const onOffSwitchService = accessory.useService(Homebridge.Services.Switch, 'Power', 'on-off-switch');
 
             // Adds the characteristics for the service
@@ -56,7 +56,7 @@ export class AppleTvController {
 
         // Creates the Play/Pause switch if requested
         if (deviceConfiguration.isPlayPauseSwitchEnabled) {
-            platform.logger.debug(`[${deviceConfiguration.name}] Adding play/pause switch`);
+            platform.logger.info(`[${deviceConfiguration.name}] Adding play/pause switch`);
             const playPauseSwitchService = accessory.useService(Homebridge.Services.Switch, 'Play', 'play-pause-switch');
 
             // Adds the characteristics for the service

@@ -38,7 +38,7 @@ export class Platform extends HomebridgePlatform<Configuration> {
      * Is called when the platform is initialized.
      */
     public initialize() {
-        this.logger.debug(`Initialing platform...`);
+        this.logger.info(`Initialing platform...`);
 
         // Sets the API configuration
 	    this.configuration.isApiEnabled = this.configuration.isApiEnabled || false;
@@ -86,7 +86,7 @@ export class Platform extends HomebridgePlatform<Configuration> {
      * Is called when homebridge is shut down.
      */
     public destroy() {
-        this.logger.debug(`Destroying clients...`);
+        this.logger.info(`Shutting down Apple TV clients...`);
 
         // Destroys all clients
         for (let client of this.clients) {

@@ -89,7 +89,7 @@ export class AppleTvClient extends EventEmitter {
             
             // Scans the network for the Apple TV
             this.platform.logger.debug(`[${this.name}] Scanning for Apple TV...`);
-            const appleTvs = await AppleTv.scan(AppleTv.parseCredentials(this.deviceConfiguration.credentials).uniqueIdentifier, this.platform.configuration.scanTimeout * 1000);
+            const appleTvs = await AppleTv.scan(AppleTv.parseCredentials(this.deviceConfiguration.credentials).uniqueIdentifier, this.platform.configuration.scanTimeout);
             const appleTv = appleTvs[0];
             this.platform.logger.debug(`[${this.name}] Connecting to Apple TV...`);
 
@@ -213,7 +213,7 @@ export class AppleTvClient extends EventEmitter {
      * @param retryCount The number of retries that are left.
      */
     public async isOnAsync(retryCount?: number): Promise<boolean> {
-        this.platform.logger.debug(`[${this.name}] Getting power state...`);
+        this.platform.logger.info(`[${this.name}] Getting power state...`);
 
         // If events are enabled, the value is already cached
         if (this.areEventsEnabled) {
@@ -273,7 +273,7 @@ export class AppleTvClient extends EventEmitter {
      * @param retryCount The number of retries that are left.
      */
     public async isPlayingAsync(retryCount?: number): Promise<boolean> {
-        this.platform.logger.debug(`[${this.name}] Getting play state...`);
+        this.platform.logger.info(`[${this.name}] Getting play state...`);
         
         // If events are enabled, the value is already cached
         if (this.areEventsEnabled) {
@@ -368,7 +368,7 @@ export class AppleTvClient extends EventEmitter {
      * @param retryCount The number of retries that are left.
      */
     public async pressKeyAsync(key: string, longPress?: boolean, retryCount?: number): Promise<void> {
-        this.platform.logger.debug(`[${this.name}] Pressing key ${key}...`);
+        this.platform.logger.info(`[${this.name}] Pressing key ${key}...`);
 
         // Checks if the key is suported
         let usage: { usePage: number, usage: number };

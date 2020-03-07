@@ -14,7 +14,7 @@ export class Api {
      * @param platform The platform of the plugin.
      */
     constructor(platform: Platform) {
-        platform.logger.debug(`[API] Initializing...`);
+        platform.logger.info(`[API] Initializing...`);
 
         // Initializes the express server and enables JSON bodies
         const server = express();
@@ -125,7 +125,7 @@ export class Api {
         
         // Starts the HTTP server
         server.listen(platform.configuration.apiPort, () => {
-            platform.logger.debug(`[API] Started`);
+            platform.logger.info(`[API] Started`);
         });
     }
 }
