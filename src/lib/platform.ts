@@ -45,7 +45,7 @@ export class Platform extends HomebridgePlatform<Configuration> {
         this.configuration.apiPort = this.configuration.apiPort || 40304;
 
         // Sets the timeouts and intervals
-        this.configuration.scanTimeout = this.configuration.scanTimeout || 10;
+        this.configuration.scanTimeout = this.configuration.scanTimeout || 2;
         this.configuration.maximumConnectRetry = this.configuration.maximumConnectRetry || 10;
         this.configuration.connectRetryInterval = this.configuration.connectRetryInterval || 5;
         this.configuration.heartbeatInterval = this.configuration.heartbeatInterval || 60;

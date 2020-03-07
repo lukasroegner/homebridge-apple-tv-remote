@@ -89,9 +89,14 @@ export class AppleTvClient extends EventEmitter {
             
             // Scans the network for the Apple TV
             this.platform.logger.debug(`[${this.name}] Scanning for Apple TV...`);
-            const appleTvs = await AppleTv.scan(AppleTv.parseCredentials(this.deviceConfiguration.credentials).uniqueIdentifier, this.platform.configuration.scanTimeout);
-            const appleTv = appleTvs[0];
-            this.platform.logger.debug(`[${this.name}] Connecting to Apple TV...`);
+            const appleTvs = await AppleTv.scan(undefined, this.platform.configuration.scanTimeout);
+
+            // Checks if the Apple TV has been found
+            const uniqueIdentifier = AppleTv.parseCredentials(this.deviceConfiguration.credentials).uniqueIdentifier;
+            const appleTv = appleTvs.find(a => a.uid == uniqueIdentifier);
+            if (!appleTv) {
+                throw new Error('Apple TV not found while scanning.');
+            }
 
             // Subscribes for messages if events are enabled
             if (this.areEventsEnabled) {
@@ -114,6 +119,7 @@ export class AppleTvClient extends EventEmitter {
             }
 
             // Opens the connection to the found Apple TV
+            this.platform.logger.debug(`[${this.name}] Connecting to Apple TV...`);
             await appleTv.openConnection(AppleTv.parseCredentials(this.deviceConfiguration.credentials));
             this.appleTv = appleTv;
             this.platform.logger.info(`[${this.name}] Connected`);

@@ -64,6 +64,10 @@ declare module 'node-appletv-x' {
          * Gets the name of the Apple TV.
          */
         name: string;
+
+        public address: string;
+        public port: number;
+        public uid: string;
         
         /**
         * Opens a connection to the AppleTV over the MRP protocol.
