@@ -40,10 +40,14 @@ export class AppleTvController {
             const onCharacteristic = onOffSwitchService.useCharacteristic<boolean>(Homebridge.Characteristics.On);
             onCharacteristic.valueChanged = newValue => {
                 platform.logger.info(`[${deviceConfiguration.name}] On/off switch changed to ${newValue}`);
-                if (newValue) {
-                    client.switchOnAsync();
-                } else {
-                    client.switchOffAsync();
+                try {
+                    if (newValue) {
+                        client.switchOnAsync();
+                    } else {
+                        client.switchOffAsync();
+                    }
+                } catch (e) {
+                    platform.logger.warn(`[${deviceConfiguration.name}] failed to change On/off to ${newValue}`);
                 }
             };
 
@@ -63,10 +67,14 @@ export class AppleTvController {
             const onCharacteristic = playPauseSwitchService.useCharacteristic<boolean>(Homebridge.Characteristics.On);
             onCharacteristic.valueChanged = newValue => {
                 platform.logger.info(`[${deviceConfiguration.name}] Play/pause switch changed to ${newValue}`);
-                if (newValue) {
-                    client.playAsync();
-                } else {
-                    client.pauseAsync();
+                try {
+                    if (newValue) {
+                        client.playAsync();
+                    } else {
+                        client.pauseAsync();
+                    }
+                } catch (e) {
+                    platform.logger.warn(`[${deviceConfiguration.name}] Failed to change play/pause to ${newValue}`);
                 }
             };
 

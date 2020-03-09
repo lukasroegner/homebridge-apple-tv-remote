@@ -45,7 +45,8 @@ export class AppleTvClient extends EventEmitter {
         try {
             await this.connectAsync(false);
         } catch (e) {
-            throw e;
+            this.platform.logger.warn(`[${this.name}] Error while connecting for heartbeat: ${e}`);
+            return;
         }
         
         // Tries to send the heartbeat message
