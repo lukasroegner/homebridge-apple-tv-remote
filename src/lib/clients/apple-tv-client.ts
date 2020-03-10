@@ -330,8 +330,10 @@ export class AppleTvClient extends EventEmitter {
      * Switches the Apple TV on.
      * @param retryCount The number of retries that are left.
      */
-    public switchOnAsync(retryCount?: number): Promise<void> {
-        return this.pressKeyAsync('topmenu', false, retryCount);
+    public async switchOnAsync(retryCount?: number): Promise<void> {
+        if (!await this.isOnAsync()) {
+            this.pressKeyAsync('topmenu', false, retryCount);
+        }
     }
 
     /**
@@ -339,8 +341,10 @@ export class AppleTvClient extends EventEmitter {
      * @param retryCount The number of retries that are left.
      */
     public async switchOffAsync(retryCount?: number): Promise<void> {
-        await this.pressKeyAsync('topmenu', true, retryCount);
-        await this.pressKeyAsync('select', false, 0);
+        if (await this.isOnAsync()) {
+            await this.pressKeyAsync('topmenu', true, retryCount);
+            await this.pressKeyAsync('select', false, 0);
+        }
     }
 
     /**
