@@ -84,5 +84,51 @@ export class AppleTvController {
                 onCharacteristic.value = client.isPlaying;
             });
         }
+
+        // Creates the command switches if requested
+        if (deviceConfiguration.commandSwitches && deviceConfiguration.commandSwitches.length > 0) {
+            for (let commandSwitchConfiguration of deviceConfiguration.commandSwitches) {
+                if (commandSwitchConfiguration.name) {
+                    platform.logger.info(`[${deviceConfiguration.name}] Adding command switch ${commandSwitchConfiguration.name}`);
+                    const commandSwitchService = accessory.useService(Homebridge.Services.Switch, commandSwitchConfiguration.name, `${commandSwitchConfiguration.name}-switch`);
+
+                    // Adds the characteristics for the service
+                    const onCharacteristic = commandSwitchService.useCharacteristic<boolean>(Homebridge.Characteristics.On);
+                    onCharacteristic.valueChanged = newValue => {
+                        if (newValue) {
+                            platform.logger.info(`[${deviceConfiguration.name}] Command switch ${commandSwitchConfiguration.name} changed to ${newValue}`);
+
+                            // Defines the function for executing the commands
+                            const executeCommands = async () => {
+                                try {
+                                    if (commandSwitchConfiguration.commands && commandSwitchConfiguration.commands.length > 0) {
+                                        for (let command of commandSwitchConfiguration.commands) {
+                                            if (command.wait) {
+                                                await new Promise(resolve => setTimeout(resolve, command.wait || 0));
+                                            }
+                                            if (command.key) {
+                                                if (command.longPress) {
+                                                    await client.longPressKeyAsync(command.key);
+                                                } else {
+                                                    await client.pressKeyAsync(command.key);
+                                                }
+                                            }
+                                        }
+                                    }
+                                } catch (e) {
+                                    platform.logger.warn(`[${deviceConfiguration.name}] Failed to execute command for ${commandSwitchConfiguration.name}`);
+                                }
+                            };
+
+                            // Starts the execution of the commands
+                            executeCommands();
+
+                            // Sets a timeout that resets the "stateless" switch
+                            setTimeout(() => onCharacteristic.value = false, 1000);
+                        }
+                    };
+                }
+            }
+        }
     }
 }
