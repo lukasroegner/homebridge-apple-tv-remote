@@ -12,7 +12,33 @@ You can install the package `node-appletv-x` that contains a command line tool t
 npm install -g node-appletv-x
 ```
 
-After the installation is completed, use the `appletv pair` command to scan for your Apple TVs in the local network and generate credentials for each of them.
+After the installation is completed, use the `appletv pair` command to scan for your Apple TVs in the local network and generate credentials for each of them. 
+
+```appletv pair
+% appletv pair        
+✔ Connecting to Living Room
+✔ Initiating Pairing
+? Enter the 4-digit pin that's currently being displayed on Living Room 4679
+✔ Completing Pairing
+Credentials: 77346115-ED48-46A8-A288-<snip>
+```
+Copy the response *after* the word Credentials: and paste it into the Config.json, like this. The response is very long - make sure to get all of it. The rest of it is shown as *&lt;snip&gt;* in this example. Be sure to not include the word Credentials in the config file
+```
+ {
+   "platform": "AppleTvPlatform",
+   "devices": [
+      {
+         "name": "Living Room",
+         "credentials": "77346115-ED48-46A8-A288-<snip>",
+         "isOnOffSwitchEnabled": false,
+         "isPlayPauseSwitchEnabled": true
+      }
+   ],
+   "isApiEnabled": false,
+   "apiPort": 40304,
+   "apiToken": "<YOUR-TOKEN>"
+},
+``` 
 
 ## Installation
 
