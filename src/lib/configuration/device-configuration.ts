@@ -1,3 +1,4 @@
+import { CommandSwitchConfiguration } from "./command-switch-configuration";
 
 /**
  * Represents an Apple TV device in the homebridge configuration for the plugin.
@@ -23,4 +24,9 @@ export interface DeviceConfiguration {
      * Gets or sets a value that determines whether a Play/Pause switch is exposed to HomeKit.
      */
     isPlayPauseSwitchEnabled: boolean;
+
+    /**
+     * Gets or sets a list of command switches that should be additionally exposed to HomeKit.
+     */
+    commandSwitches: Array<CommandSwitchConfiguration>;
 }

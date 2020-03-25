@@ -22,21 +22,17 @@ After the installation is completed, use the `appletv pair` command to scan for 
 ✔ Completing Pairing
 Credentials: 77346115-ED48-46A8-A288-<snip>
 ```
-Copy the response *after* the word Credentials: and paste it into the Config.json, like this. The response is very long - make sure to get all of it. The rest of it is shown as *&lt;snip&gt;* in this example. Be sure to not include the word Credentials in the config file
+Copy the response *after* the word Credentials: and paste it into the Config.json, like this. The response is very long - make sure to get all of it. 
+The rest of it is shown as `<snip>` in this example. Be sure to not include the word Credentials in the config file:
 ```
  {
    "platform": "AppleTvPlatform",
    "devices": [
       {
          "name": "Living Room",
-         "credentials": "77346115-ED48-46A8-A288-<snip>",
-         "isOnOffSwitchEnabled": false,
-         "isPlayPauseSwitchEnabled": true
+         "credentials": "77346115-ED48-46A8-A288-<snip>"
       }
-   ],
-   "isApiEnabled": false,
-   "apiPort": 40304,
-   "apiToken": "<YOUR-TOKEN>"
+   ]
 },
 ``` 
 
@@ -60,7 +56,13 @@ npm install -g homebridge-apple-tv-remote
                     "name": "<UNIQUE-NAME>",
                     "credentials": "<CREDENTIALS>",
                     "isOnOffSwitchEnabled": false,
-                    "isPlayPauseSwitchEnabled": false
+                    "isPlayPauseSwitchEnabled": false,
+                    "commandSwitches": [
+                        {
+                            "name": "<UNIQUE-SWITCH-NAME>",
+                            "commands": [...]
+                        }
+                    ]
                 }
             ],
             "isApiEnabled": false,
@@ -80,6 +82,12 @@ npm install -g homebridge-apple-tv-remote
 **isOnOffSwitchEnabled**: If set to true, a switch is exposed for changing on/off of the Apple TV. Defaults to `false`.
 
 **isPlayPauseSwitchEnabled**: If set to true, a switch is exposed for changing the play state. Defaults to `false`.
+
+**commandSwitches** (optional): You can provide a list of switches that should be additionally exposed to HomeKit. Those switches are "stateless" and execute the configured commands.
+
+**name**: The name of the command switch. Make sure to use a **unique** name for the switch (it can be renamed in the Home app afterwards).
+
+**commands**: The commands that should be executed when the switch is enabled. See **API** for the commands syntax.
 
 **isApiEnabled** (optional): Enables an HTTP API for controlling devices. Defaults to `false`. See **API** for more information.
 
