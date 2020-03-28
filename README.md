@@ -56,7 +56,9 @@ npm install -g homebridge-apple-tv-remote
                     "name": "<UNIQUE-NAME>",
                     "credentials": "<CREDENTIALS>",
                     "isOnOffSwitchEnabled": false,
+                    "onOffSwitchName": "<CUSTOM-NAME>",
                     "isPlayPauseSwitchEnabled": false,
+                    "playPauseSwitchName": "<CUSTOM-NAME>",
                     "commandSwitches": [
                         {
                             "name": "<UNIQUE-SWITCH-NAME>",
@@ -81,7 +83,11 @@ npm install -g homebridge-apple-tv-remote
 
 **isOnOffSwitchEnabled**: If set to true, a switch is exposed for changing on/off of the Apple TV. Defaults to `false`.
 
+**onOffSwitchName** (optional): Can be used to set the initial name that is displayed in the Home app. Useful for plugins like `homebridge-alexa`, where changing the name in the Home app is not propagated back to homebridge.
+
 **isPlayPauseSwitchEnabled**: If set to true, a switch is exposed for changing the play state. Defaults to `false`.
+
+**playPauseSwitchName** (optional): Can be used to set the initial name that is displayed in the Home app. Useful for plugins like `homebridge-alexa`, where changing the name in the Home app is not propagated back to homebridge.
 
 **commandSwitches** (optional): You can provide a list of switches that should be additionally exposed to HomeKit. Those switches are "stateless" and execute the configured commands.
 

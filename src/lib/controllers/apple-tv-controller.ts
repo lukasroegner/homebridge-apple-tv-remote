@@ -34,7 +34,7 @@ export class AppleTvController {
         // Creates the On/Off switch if requested
         if (deviceConfiguration.isOnOffSwitchEnabled) {
             platform.logger.info(`[${deviceConfiguration.name}] Adding on/off switch`);
-            const onOffSwitchService = accessory.useService(Homebridge.Services.Switch, 'Power', 'on-off-switch');
+            const onOffSwitchService = accessory.useService(Homebridge.Services.Switch, deviceConfiguration.onOffSwitchName || 'Power', 'on-off-switch');
 
             // Adds the characteristics for the service
             const onCharacteristic = onOffSwitchService.useCharacteristic<boolean>(Homebridge.Characteristics.On);
@@ -61,7 +61,7 @@ export class AppleTvController {
         // Creates the Play/Pause switch if requested
         if (deviceConfiguration.isPlayPauseSwitchEnabled) {
             platform.logger.info(`[${deviceConfiguration.name}] Adding play/pause switch`);
-            const playPauseSwitchService = accessory.useService(Homebridge.Services.Switch, 'Play', 'play-pause-switch');
+            const playPauseSwitchService = accessory.useService(Homebridge.Services.Switch, deviceConfiguration.playPauseSwitchName || 'Play', 'play-pause-switch');
 
             // Adds the characteristics for the service
             const onCharacteristic = playPauseSwitchService.useCharacteristic<boolean>(Homebridge.Characteristics.On);

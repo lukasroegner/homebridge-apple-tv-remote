@@ -21,9 +21,19 @@ export interface DeviceConfiguration {
     isOnOffSwitchEnabled: boolean;
 
     /**
+     * Gets or sets the initial name of the On/Off switch.
+     */
+    onOffSwitchName: string;
+
+    /**
      * Gets or sets a value that determines whether a Play/Pause switch is exposed to HomeKit.
      */
     isPlayPauseSwitchEnabled: boolean;
+
+    /**
+     * Gets or sets the initial name of the Play/Pause switch.
+     */
+    playPauseSwitchName: string;
 
     /**
      * Gets or sets a list of command switches that should be additionally exposed to HomeKit.
