@@ -1,0 +1,93 @@
+{
+  "pluginAlias": "AppleTvPlatform",
+  "pluginType": "platform",
+  "headerDisplay": "The **Homebridge Apple TV Remote** Plugin allows you to controlling Apple TVs in homebridge.",
+  "footerDisplay": "",
+  "singular": true,
+  "schema": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "title": "Name",
+        "default": "Apple TV Platform"
+      },
+      "devices": {
+        "type": "array",
+        "title": "Devices",
+        "description": " Array of all your Apple TV devices that the plugin should expose.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "Device Name",
+              "required": true,
+              "placeholder": "Must be a Unique Name..."
+            },
+            "credentials": {
+              "type": "string",
+              "title": "Device Credentials",
+              "required": true,
+              "placeholder": "77346115-ED48-46A8-A288-<snip>"
+            },
+            "isOnOffSwitchEnabled": {
+              "type": "boolean",
+              "title": "Enable ON/OFF Switch"
+            },
+            "onOffSwitchName": {
+              "type": "string",
+              "title": "Name of ON/OFF Switch",
+              "placeholder": "Unique Name..."
+            },
+            "isPlayPauseSwitchEnabled": {
+              "type": "boolean",
+              "title": "Enable Play/Pause Switch"
+            },
+            "playPauseSwitchName": {
+              "type": "string",
+              "title": "Name of Play/Pause Switch",
+              "placeholder": "Unique Name..."
+            },
+            "commandSwitches": {
+              "type": "array",
+              "title": "Command Switches",
+              "description": "You can provide a list of switches that should be additionally exposed to HomeKit. Those switches are stateless and execute the configured commands.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "title": "Name",
+                    "description": "The name of the command switch. Make sure to use a unique name for the switch (it can be renamed in the Home app afterwards)."
+                  },
+                  "commands": {
+                    "type": "array",
+                    "title": "The Commands Schema",
+                    "description": "The commands that should be executed when the switch is enabled. See API for the commands syntax."
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "isApiEnabled": {
+        "type": "boolean",
+        "title": "Enable API",
+        "description": "Enables an HTTP API for controlling devices. Defaults to false. See API for more information."
+      },
+      "apiPort": {
+        "type": "integer",
+        "title": "API Port",
+        "placeholder": "40304",
+        "description": "The port that the API (if enabled) runs on. Defaults to 40304, please change this setting of the port is already in use."
+      },
+      "apiToken": {
+        "type": "string",
+        "title": "API Token",
+        "description": "The token that has to be included in each request of the API. Is required if the API is enabled and has no default value."
+      }
+    }
+  }
+}
