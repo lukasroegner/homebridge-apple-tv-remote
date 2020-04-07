@@ -1,4 +1,6 @@
 
+import * as AppleTv from 'node-appletv-x';
+
 import { HomebridgePlatform } from 'homebridge-framework';
 import { Configuration } from './configuration/configuration';
 import { AppleTvClient } from './clients/apple-tv-client';
@@ -54,6 +56,14 @@ export class Platform extends HomebridgePlatform<Configuration> {
         if (this.configuration.devices) {
             for (let deviceConfiguration of this.configuration.devices) {
                 if (deviceConfiguration.name) {
+
+                    // Checks whether the credentials are valid and can be parsed
+                    try {
+                        AppleTv.parseCredentials(deviceConfiguration.credentials);
+                    } catch {
+                        this.logger.warn(`[${deviceConfiguration.name}] Credentials are invalid. Make sure that you copied them correctly.`);
+                        continue;
+                    }
 
                     // Creates a new client for the device configuration
                     if (deviceConfiguration.isOnOffSwitchEnabled || deviceConfiguration.isPlayPauseSwitchEnabled || this.configuration.isApiEnabled || (deviceConfiguration.commandSwitches && deviceConfiguration.commandSwitches.length > 0)) {
