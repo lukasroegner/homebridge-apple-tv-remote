@@ -42,9 +42,9 @@ export class AppleTvController {
                 platform.logger.info(`[${deviceConfiguration.name}] On/off switch changed to ${newValue}`);
                 try {
                     if (newValue) {
-                        client.switchOnAsync();
+                        client.switchOn();
                     } else {
-                        client.switchOffAsync();
+                        client.switchOff();
                     }
                 } catch (e) {
                     platform.logger.warn(`[${deviceConfiguration.name}] failed to change On/off to ${newValue}`);
@@ -69,9 +69,9 @@ export class AppleTvController {
                 platform.logger.info(`[${deviceConfiguration.name}] Play/pause switch changed to ${newValue}`);
                 try {
                     if (newValue) {
-                        client.playAsync();
+                        client.play();
                     } else {
-                        client.pauseAsync();
+                        client.pause();
                     }
                 } catch (e) {
                     platform.logger.warn(`[${deviceConfiguration.name}] Failed to change play/pause to ${newValue}`);

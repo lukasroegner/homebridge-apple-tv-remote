@@ -327,12 +327,34 @@ export class AppleTvClient extends EventEmitter {
     }
 
     /**
+     * Switches the Apple TV on. This method does not wait for the Apple TV to respond.
+     */
+    public async switchOn() {
+        try {
+            await this.switchOnAsync();
+        } catch (e) {
+            this.platform.logger.warn(`[${this.name}] Giving up. Error while switching on`);
+        }
+    }
+
+    /**
      * Switches the Apple TV on.
      * @param retryCount The number of retries that are left.
      */
     public async switchOnAsync(retryCount?: number): Promise<void> {
         if (!await this.isOnAsync()) {
-            this.pressKeyAsync('topmenu', false, retryCount);
+            await this.pressKeyAsync('topmenu', false, retryCount);
+        }
+    }
+
+    /**
+     * Switches the Apple TV off. This method does not wait for the Apple TV to respond.
+     */
+    public async switchOff() {
+        try {
+            await this.switchOffAsync();
+        } catch (e) {
+            this.platform.logger.warn(`[${this.name}] Giving up. Error while switching off`);
         }
     }
 
@@ -348,11 +370,33 @@ export class AppleTvClient extends EventEmitter {
     }
 
     /**
+     * Virtually clicks on the play button. This method does not wait for the Apple TV to respond.
+     */
+    public async play() {
+        try {
+            await this.playAsync();
+        } catch (e) {
+            this.platform.logger.warn(`[${this.name}] Giving up. Error while sending play command`);
+        }
+    }
+
+    /**
      * Virtually clicks on the play button.
      * @param retryCount The number of retries that are left.
      */
     public playAsync(retryCount?: number): Promise<void> {
         return this.pressKeyAsync('play', false, retryCount);
+    }
+
+    /**
+     * Virtually clicks on the pause button. This method does not wait for the Apple TV to respond.
+     */
+    public async pause() {
+        try {
+            await this.pauseAsync();
+        } catch (e) {
+            this.platform.logger.warn(`[${this.name}] Giving up. Error while sending pause command`);
+        }
     }
 
     /**
