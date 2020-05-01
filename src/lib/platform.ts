@@ -26,7 +26,7 @@ export class Platform extends HomebridgePlatform<Configuration> {
      * Gets the name of the plugin.
      */
     public get pluginName(): string {
-        return 'homebridge-appletv';
+        return 'homebridge-apple-tv-remote';
     }    
     
     /**
