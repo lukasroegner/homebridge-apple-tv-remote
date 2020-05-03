@@ -121,6 +121,7 @@ export class AppleTvClient extends EventEmitter {
             // Subscribes for messages if events are enabled
             if (this.areEventsEnabled) {
                 appleTv.on('message', (m: AppleTv.Message) => {
+                    this.platform.logger.debug(`[${this.name}] Message received: ${JSON.stringify(m)}`);
                     if (m.payload) {
 
                         // Updates the power state
@@ -128,13 +129,14 @@ export class AppleTvClient extends EventEmitter {
                             this._isOn = this.getIsOn(m.payload);
                             this.emit('isOnChanged');
                         }
-
-                        // Updates the play state
-                        if (m.payload.playbackState === 0 || m.payload.playbackState > 0) {
-                            this._isPlaying = m.payload.playbackState === 1;
-                            this.emit('isPlayingChanged');
-                        }
                     }
+                });
+                appleTv.on('nowPlaying', (nowPlayingInfo: AppleTv.NowPlayingInfo) => {
+                    this.platform.logger.debug(`[${this.name}] Now playing info received: ${JSON.stringify(nowPlayingInfo)}`);
+                
+                    // Updates the play state
+                    this._isPlaying = nowPlayingInfo && nowPlayingInfo.playbackState === AppleTv.NowPlayingInfo.State.Playing;
+                    this.emit('isPlayingChanged');
                 });
             }
 
@@ -334,7 +336,7 @@ export class AppleTvClient extends EventEmitter {
             // Decreased the retry count and tries again
             retryCount--;
             if (retryCount > 0) {
-                return await this.isOnAsync(retryCount);
+                return await this.isPlayingAsync(retryCount);
             } else {
                 throw e;
             }
