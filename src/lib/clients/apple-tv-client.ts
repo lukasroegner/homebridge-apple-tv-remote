@@ -143,9 +143,17 @@ export class AppleTvClient extends EventEmitter {
                     } else {
                         this.platform.logger.debug(`[${this.name}] Now playing info received: EMPTY`);
                     }
+
+                    // Gets the new playing state
+                    const isPlaying = nowPlayingInfo && nowPlayingInfo.playbackState === AppleTv.NowPlayingInfo.State.Playing;
+
+                    // Sends another heartbeat if the playback state changed
+                    if (this._isPlaying !== isPlaying) {
+                        this.sendHeartbeatAsync();
+                    }
                 
                     // Updates the play state
-                    this._isPlaying = nowPlayingInfo && nowPlayingInfo.playbackState === AppleTv.NowPlayingInfo.State.Playing;
+                    this._isPlaying = isPlaying;
                     this.emit('isPlayingChanged');
                 });
             }
