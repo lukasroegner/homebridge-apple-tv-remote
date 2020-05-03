@@ -128,6 +128,12 @@ export class AppleTvClient extends EventEmitter {
                         if (m.payload.logicalDeviceCount === 0 || m.payload.logicalDeviceCount > 0) {
                             this._isOn = this.getIsOn(m.payload);
                             this.emit('isOnChanged');
+
+                            // If the Apple TV has switched off, the play state should also be off
+                            if (!this._isOn) {
+                                this._isPlaying = false;
+                                this.emit('isPlayingChanged');
+                            }
                         }
                     }
                 });
