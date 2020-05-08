@@ -60,6 +60,25 @@ export class AppleTvClient extends EventEmitter {
     }
 
     /**
+     * Tries to get the on/off state of the Apple TV
+     * @param messagePayload The message payload that contains the information to check whether the Apple TV is on.
+     * @returns Returns a value that determines whether the Apple TV is on.
+     */
+    private getIsOn(messagePayload: any): boolean {
+
+        // If the Apple TV is not a proxy for AirPlay playback, the logicalDeviceCount determines the state
+        if (messagePayload.logicalDeviceCount > 0 && !messagePayload.isProxyGroupPlayer) {
+            return true;
+        }
+
+        // If the Apple TV is a proxy for AirPlay playback, the logicalDeviceCount and the AirPlay state determine the state
+        if (messagePayload.logicalDeviceCount > 0 && messagePayload.isProxyGroupPlayer && messagePayload.isAirplayActive) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Tries to connect to an Apple TV.
      * @param forceReconnect Determines whether a reconnect should happen even if the Apple TV is already connected.
      * @param retryCount The number of retries that are left.
@@ -106,16 +125,36 @@ export class AppleTvClient extends EventEmitter {
 
                         // Updates the power state
                         if (m.payload.logicalDeviceCount === 0 || m.payload.logicalDeviceCount > 0) {
-                            this._isOn = m.payload.logicalDeviceCount > 0;
+                            this.platform.logger.debug(`[${this.name}] Message received: logicalDeviceCount - ${m.payload.logicalDeviceCount} | isProxyGroupPlayer - ${m.payload.isProxyGroupPlayer} | isAirplayActive - ${m.payload.isAirplayActive}`);
+                            this._isOn = this.getIsOn(m.payload);
                             this.emit('isOnChanged');
-                        }
 
-                        // Updates the play state
-                        if (m.payload.playbackState === 0 || m.payload.playbackState > 0) {
-                            this._isPlaying = m.payload.playbackState === 1;
-                            this.emit('isPlayingChanged');
+                            // If the Apple TV has switched off, the play state should also be off
+                            if (!this._isOn) {
+                                this._isPlaying = false;
+                                this.emit('isPlayingChanged');
+                            }
                         }
                     }
+                });
+                appleTv.on('nowPlaying', (nowPlayingInfo: AppleTv.NowPlayingInfo) => {
+                    if (nowPlayingInfo) {
+                        this.platform.logger.debug(`[${this.name}] Now playing info received: ${nowPlayingInfo.playbackState}`);
+                    } else {
+                        this.platform.logger.debug(`[${this.name}] Now playing info received: EMPTY`);
+                    }
+
+                    // Gets the new playing state
+                    const isPlaying = nowPlayingInfo && nowPlayingInfo.playbackState === AppleTv.NowPlayingInfo.State.Playing;
+
+                    // Sends another heartbeat if the playback state changed
+                    if (this._isPlaying !== isPlaying) {
+                        this.sendHeartbeatAsync();
+                    }
+                
+                    // Updates the play state
+                    this._isPlaying = isPlaying;
+                    this.emit('isPlayingChanged');
                 });
             }
 
@@ -259,8 +298,8 @@ export class AppleTvClient extends EventEmitter {
         }
 
         // Returns the value indicating whether the device is on.
-        this.platform.logger.info(`[${this.name}] Returning value ${message.payload.logicalDeviceCount > 0} for power state`);
-        return message.payload.logicalDeviceCount > 0;
+        this.platform.logger.info(`[${this.name}] Returning value ${this.getIsOn(message.payload)} for power state`);
+        return this.getIsOn(message.payload);
     }
 
     /**
@@ -315,7 +354,7 @@ export class AppleTvClient extends EventEmitter {
             // Decreased the retry count and tries again
             retryCount--;
             if (retryCount > 0) {
-                return await this.isOnAsync(retryCount);
+                return await this.isPlayingAsync(retryCount);
             } else {
                 throw e;
             }
