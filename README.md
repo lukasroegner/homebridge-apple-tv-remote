@@ -2,6 +2,10 @@
 
 Plugin for controlling Apple TVs in homebridge. Each Apple TV can be turned on/off via a switch. Additionally, a play/pause switch is exposed to HomeKit.
 
+Supported models are:
+* Apple TV HD (Apple TV 4)
+* Apple TV 4K
+
 ## Generate credentials for Apple TVs
 
 Before installing the plugin, credentials must be created for each Apple TV. 

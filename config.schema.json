@@ -1,7 +1,7 @@
 {
   "pluginAlias": "AppleTvPlatform",
   "pluginType": "platform",
-  "headerDisplay": "The **Homebridge Apple TV Remote** plugin allows you to controlling Apple TVs in homebridge. For instructions on how to create credentials, visit the [GitHub repository](https://github.com/lukasroegner/homebridge-apple-tv-remote).",
+  "headerDisplay": "The **Homebridge Apple TV Remote** plugin allows you to controlling Apple TVs in homebridge. Supported models are: Apple TV HD (Apple TV 4) and Apple TV 4K. For instructions on how to create credentials, visit the [GitHub repository](https://github.com/lukasroegner/homebridge-apple-tv-remote).",
   "footerDisplay": "For help please visit the [GitHub repository](https://github.com/lukasroegner/homebridge-apple-tv-remote).",
   "singular": true,
   "schema": {
