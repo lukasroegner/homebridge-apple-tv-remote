@@ -1,5 +1,9 @@
 # homebridge-apple-tv-remote
 
+**IMPORTANT**: This plugin is still in development and hasn't reached a stable state. It is recommended to install it in a separate Homebridge instance. Take a look at the issue [#46](https://github.com/lukasroegner/homebridge-apple-tv-remote/issues/46) to check the current state of bugfix.
+
+## About
+
 Plugin for controlling Apple TVs in homebridge. Each Apple TV can be turned on/off via a switch. Additionally, a play/pause switch is exposed to HomeKit.
 
 Supported models are:
