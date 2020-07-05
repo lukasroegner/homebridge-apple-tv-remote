@@ -55,7 +55,8 @@ export class AppleTvClient extends EventEmitter {
             // Sends the introduction message as a heartbeat
             await this.appleTv!.sendIntroduction();
         } catch (e) {
-            this.platform.logger.warn(`[${this.name}] Error while sending heartbeat: ${e}`);
+            this.platform.logger.warn(`[${this.name}] Error while sending heartbeat: Socket closed.`);
+            this.appleTv = null;
         }
     }
 
@@ -157,6 +158,9 @@ export class AppleTvClient extends EventEmitter {
                     this.emit('isPlayingChanged');
                 });
             }
+
+            // Subscribes for closed socket
+            appleTv.on('close', () => this.appleTv = null);
 
             // Opens the connection to the found Apple TV
             this.platform.logger.debug(`[${this.name}] Connecting to Apple TV...`);
