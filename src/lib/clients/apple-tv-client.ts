@@ -136,26 +136,24 @@ export class AppleTvClient extends EventEmitter {
                                 this.emit('isPlayingChanged');
                             }
                         }
-                    }
-                });
-                appleTv.on('nowPlaying', (nowPlayingInfo: AppleTv.NowPlayingInfo) => {
-                    if (nowPlayingInfo) {
-                        this.platform.logger.debug(`[${this.name}] Now playing info received: ${nowPlayingInfo.playbackState}`);
-                    } else {
-                        this.platform.logger.debug(`[${this.name}] Now playing info received: EMPTY`);
-                    }
 
-                    // Gets the new playing state
-                    const isPlaying = nowPlayingInfo && nowPlayingInfo.playbackState === AppleTv.NowPlayingInfo.State.Playing;
+                        // Updates the playback state
+                        if (m.payload.playbackState) {
+                            this.platform.logger.debug(`[${this.name}] Message received: playbackState - ${m.payload.playbackState}`);
 
-                    // Sends another heartbeat if the playback state changed
-                    if (this._isPlaying !== isPlaying) {
-                        this.sendHeartbeatAsync();
+                            // Gets the new playing state
+                            const isPlaying = m.payload.playbackState == 1;
+
+                            // Sends another heartbeat if the playback state changed
+                            if (this._isPlaying !== isPlaying) {
+                                this.sendHeartbeatAsync();
+                            }
+                        
+                            // Updates the play state
+                            this._isPlaying = isPlaying;
+                            this.emit('isPlayingChanged');
+                        }
                     }
-                
-                    // Updates the play state
-                    this._isPlaying = isPlaying;
-                    this.emit('isPlayingChanged');
                 });
             }
 
