@@ -142,7 +142,7 @@ export class AppleTvClient extends EventEmitter {
                             this.platform.logger.debug(`[${this.name}] Message received: playbackState - ${m.payload.playbackState}`);
 
                             // Gets the new playing state
-                            const isPlaying = m.payload.playbackState == 1;
+                            const isPlaying = (m.payload.playbackState == 1 && m.payload.playerPath.client.bundleIdentifier == "com.netflix.Netflix");
 
                             // Sends another heartbeat if the playback state changed
                             if (this._isPlaying !== isPlaying) {
