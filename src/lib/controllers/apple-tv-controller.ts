@@ -63,10 +63,10 @@ export class AppleTvController {
         // Creates the Play/Pause switch if requested
         if (deviceConfiguration.isPlayPauseSwitchEnabled) {
             platform.logger.info(`[${deviceConfiguration.name}] Adding play/pause switch`);
-            //deviceConfiguration.appPlayPauseSwitches.forEach(PlayPauseSwitch => {
+            deviceConfiguration.appPlayPauseSwitches.forEach(PlayPauseSwitch => {
 
 
-                const playPauseSwitchService = accessory.useService(Homebridge.Services.Switch, deviceConfiguration.appPlayPauseSwitches[0].name || 'Play', 'play-pause-switch');
+                const playPauseSwitchService = accessory.useService(Homebridge.Services.Switch, PlayPauseSwitch.name || 'Play', 'play-pause-switch');
 
                 // Adds the characteristics for the service
                 const onCharacteristic = playPauseSwitchService.useCharacteristic<boolean>(Homebridge.Characteristics.On);
@@ -88,15 +88,13 @@ export class AppleTvController {
                 // Subscribes for events of the client
                 client.on('isPlayingChanged', _ => {
                     platform.logger.debug(`[${deviceConfiguration.name}] Play/pause switch updated to ${client.isPlaying}`);
-                    //if(deviceConfiguration.appPlayPauseSwitches[0].bundleIdentifier == client.currentApp)
-                    //{
-                    //    
-                    //    onCharacteristic.value = client.isPlaying;
-                    //}
-                    onCharacteristic.value = client.isPlaying;
+                    if(PlayPauseSwitch.bundleIdentifier == client.currentApp)
+                    {
+                        onCharacteristic.value = client.isPlaying;
+                    }
                     
                 });
-            //});
+            });
         }
 
         // Creates the command switches if requested

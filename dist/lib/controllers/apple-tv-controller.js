@@ -92,37 +92,34 @@ var AppleTvController = /** @class */ (function () {
         // Creates the Play/Pause switch if requested
         if (deviceConfiguration.isPlayPauseSwitchEnabled) {
             platform.logger.info("[" + deviceConfiguration.name + "] Adding play/pause switch");
-            //deviceConfiguration.appPlayPauseSwitches.forEach(PlayPauseSwitch => {
-            var playPauseSwitchService = accessory.useService(homebridge_framework_1.Homebridge.Services.Switch, deviceConfiguration.appPlayPauseSwitches[0].name || 'Play', 'play-pause-switch');
-            // Adds the characteristics for the service
-            var onCharacteristic_2 = playPauseSwitchService.useCharacteristic(homebridge_framework_1.Homebridge.Characteristics.On);
-            onCharacteristic_2.valueChanged = function (newValue) {
-                if (onCharacteristic_2.value !== newValue) {
-                    platform.logger.info("[" + deviceConfiguration.name + "] Play/pause switch changed to " + newValue);
-                    try {
-                        if (newValue) {
-                            client.play();
+            deviceConfiguration.appPlayPauseSwitches.forEach(function (PlayPauseSwitch) {
+                var playPauseSwitchService = accessory.useService(homebridge_framework_1.Homebridge.Services.Switch, PlayPauseSwitch.name || 'Play', 'play-pause-switch');
+                // Adds the characteristics for the service
+                var onCharacteristic = playPauseSwitchService.useCharacteristic(homebridge_framework_1.Homebridge.Characteristics.On);
+                onCharacteristic.valueChanged = function (newValue) {
+                    if (onCharacteristic.value !== newValue) {
+                        platform.logger.info("[" + deviceConfiguration.name + "] Play/pause switch changed to " + newValue);
+                        try {
+                            if (newValue) {
+                                client.play();
+                            }
+                            else {
+                                client.pause();
+                            }
                         }
-                        else {
-                            client.pause();
+                        catch (e) {
+                            platform.logger.warn("[" + deviceConfiguration.name + "] Failed to change play/pause to " + newValue);
                         }
                     }
-                    catch (e) {
-                        platform.logger.warn("[" + deviceConfiguration.name + "] Failed to change play/pause to " + newValue);
+                };
+                // Subscribes for events of the client
+                client.on('isPlayingChanged', function (_) {
+                    platform.logger.debug("[" + deviceConfiguration.name + "] Play/pause switch updated to " + client.isPlaying);
+                    if (PlayPauseSwitch.bundleIdentifier == client.currentApp) {
+                        onCharacteristic.value = client.isPlaying;
                     }
-                }
-            };
-            // Subscribes for events of the client
-            client.on('isPlayingChanged', function (_) {
-                platform.logger.debug("[" + deviceConfiguration.name + "] Play/pause switch updated to " + client.isPlaying);
-                //if(deviceConfiguration.appPlayPauseSwitches[0].bundleIdentifier == client.currentApp)
-                //{
-                //    
-                //    onCharacteristic.value = client.isPlaying;
-                //}
-                onCharacteristic_2.value = client.isPlaying;
+                });
             });
-            //});
         }
         // Creates the command switches if requested
         if (deviceConfiguration.commandSwitches && deviceConfiguration.commandSwitches.length > 0) {
@@ -131,8 +128,8 @@ var AppleTvController = /** @class */ (function () {
                     platform.logger.info("[" + deviceConfiguration.name + "] Adding command switch " + commandSwitchConfiguration.name);
                     var commandSwitchService = accessory.useService(homebridge_framework_1.Homebridge.Services.Switch, commandSwitchConfiguration.name, commandSwitchConfiguration.name + "-switch");
                     // Adds the characteristics for the service
-                    var onCharacteristic_3 = commandSwitchService.useCharacteristic(homebridge_framework_1.Homebridge.Characteristics.On);
-                    onCharacteristic_3.valueChanged = function (newValue) {
+                    var onCharacteristic_2 = commandSwitchService.useCharacteristic(homebridge_framework_1.Homebridge.Characteristics.On);
+                    onCharacteristic_2.valueChanged = function (newValue) {
                         if (newValue) {
                             platform.logger.info("[" + deviceConfiguration.name + "] Command switch " + commandSwitchConfiguration.name + " changed to " + newValue);
                             // Defines the function for executing the commands
@@ -191,7 +188,7 @@ var AppleTvController = /** @class */ (function () {
                             // Starts the execution of the commands
                             executeCommands();
                             // Sets a timeout that resets the "stateless" switch
-                            setTimeout(function () { return onCharacteristic_3.value = false; }, 1000);
+                            setTimeout(function () { return onCharacteristic_2.value = false; }, 1000);
                         }
                     };
                 }
