@@ -66,7 +66,7 @@ export class AppleTvController {
             deviceConfiguration.appPlayPauseSwitches.forEach(PlayPauseSwitch => {
 
 
-                const playPauseSwitchService = accessory.useService(Homebridge.Services.Switch, PlayPauseSwitch.name || 'Play', 'play-pause-switch');
+                const playPauseSwitchService = accessory.useService(Homebridge.Services.Switch, PlayPauseSwitch.name || 'Play', `${PlayPauseSwitch.name}-Status`);
 
                 // Adds the characteristics for the service
                 const onCharacteristic = playPauseSwitchService.useCharacteristic<boolean>(Homebridge.Characteristics.On);

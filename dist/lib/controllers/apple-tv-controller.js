@@ -93,7 +93,7 @@ var AppleTvController = /** @class */ (function () {
         if (deviceConfiguration.isPlayPauseSwitchEnabled) {
             platform.logger.info("[" + deviceConfiguration.name + "] Adding play/pause switch");
             deviceConfiguration.appPlayPauseSwitches.forEach(function (PlayPauseSwitch) {
-                var playPauseSwitchService = accessory.useService(homebridge_framework_1.Homebridge.Services.Switch, PlayPauseSwitch.name || 'Play', 'play-pause-switch');
+                var playPauseSwitchService = accessory.useService(homebridge_framework_1.Homebridge.Services.Switch, PlayPauseSwitch.name || 'Play', PlayPauseSwitch.name + "-Status");
                 // Adds the characteristics for the service
                 var onCharacteristic = playPauseSwitchService.useCharacteristic(homebridge_framework_1.Homebridge.Characteristics.On);
                 onCharacteristic.valueChanged = function (newValue) {
