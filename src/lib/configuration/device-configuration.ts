@@ -33,10 +33,18 @@ export interface DeviceConfiguration {
     /**
      * Gets or sets the initial name of the Play/Pause switch.
      */
-    playPauseSwitchName: string;
+    appPlayPauseSwitches: Array<appPlayPauseSwitches>;
 
     /**
      * Gets or sets a list of command switches that should be additionally exposed to HomeKit.
      */
     commandSwitches: Array<CommandSwitchConfiguration>;
+}
+
+
+export interface appPlayPauseSwitches {
+
+    name: string;
+
+    bundleIdentifier: string;
 }

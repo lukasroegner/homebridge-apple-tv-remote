@@ -142,15 +142,19 @@ export class AppleTvClient extends EventEmitter {
                             this.platform.logger.debug(`[${this.name}] Message received: playbackState - ${m.payload.playbackState}`);
 
                             // Gets the new playing state
-                            const isPlaying = (m.payload.playbackState == 1 && m.payload.playerPath.client.bundleIdentifier == "com.netflix.Netflix");
-
+                            const isPlaying = m.payload.playbackState == 1;
+                            const currentApp = m.payload.playerPath.client.bundleIdentifier;
                             // Sends another heartbeat if the playback state changed
                             if (this._isPlaying !== isPlaying) {
+                                this.sendHeartbeatAsync();
+                            }
+                            if (this._currentApp !== currentApp) {
                                 this.sendHeartbeatAsync();
                             }
                         
                             // Updates the play state
                             this._isPlaying = isPlaying;
+                            this._currentApp = currentApp;
                             this.emit('isPlayingChanged');
                         }
                     }
@@ -308,12 +312,16 @@ export class AppleTvClient extends EventEmitter {
      * Contains a value that determines whether the Apple TV is playing.
      */
     private _isPlaying: boolean = false;
+    private _currentApp: string = "";
 
     /**
      * Gets a value that determines whether the Apple TV is playing.
      */
     public get isPlaying(): boolean {
         return this._isPlaying;
+    }
+    public get currentApp(): string {
+        return this._currentApp;
     }
 
     /**
