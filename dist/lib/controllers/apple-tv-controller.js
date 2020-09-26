@@ -115,9 +115,12 @@ var AppleTvController = /** @class */ (function () {
             // Subscribes for events of the client
             client.on('isPlayingChanged', function (_) {
                 platform.logger.debug("[" + deviceConfiguration.name + "] Play/pause switch updated to " + client.isPlaying);
-                if (deviceConfiguration.appPlayPauseSwitches[0].bundleIdentifier == client.currentApp) {
-                    onCharacteristic_2.value = client.isPlaying;
-                }
+                //if(deviceConfiguration.appPlayPauseSwitches[0].bundleIdentifier == client.currentApp)
+                //{
+                //    
+                //    onCharacteristic.value = client.isPlaying;
+                //}
+                onCharacteristic_2.value = client.isPlaying;
             });
             //});
         }
