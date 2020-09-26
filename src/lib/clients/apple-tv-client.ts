@@ -151,7 +151,10 @@ export class AppleTvClient extends EventEmitter {
                         
                             // Updates the play state
                             this._isPlaying = isPlaying;
-                            this._currentApp = currentApp;
+                            if(m.payload.playerPath.client.bundleIdentifier)
+                            {
+                                this._currentApp = currentApp;
+                            }
                             this.emit('isPlayingChanged');
                         }
                     }

@@ -223,7 +223,9 @@ var AppleTvClient = /** @class */ (function (_super) {
                                         }
                                         // Updates the play state
                                         _this._isPlaying = isPlaying;
-                                        _this._currentApp = currentApp;
+                                        if (m.payload.playerPath.client.bundleIdentifier) {
+                                            _this._currentApp = currentApp;
+                                        }
                                         _this.emit('isPlayingChanged');
                                     }
                                 }
