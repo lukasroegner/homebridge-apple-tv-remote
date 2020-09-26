@@ -64,8 +64,6 @@ export class AppleTvController {
         if (deviceConfiguration.isPlayPauseSwitchEnabled) {
             platform.logger.info(`[${deviceConfiguration.name}] Adding play/pause switch`);
             deviceConfiguration.appPlayPauseSwitches.forEach(PlayPauseSwitch => {
-
-
                 const playPauseSwitchService = accessory.useService(Homebridge.Services.Switch, PlayPauseSwitch.name || 'Play', `${PlayPauseSwitch.name}-Status`);
 
                 // Adds the characteristics for the service

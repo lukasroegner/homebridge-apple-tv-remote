@@ -145,10 +145,7 @@ export class AppleTvClient extends EventEmitter {
                             const isPlaying = m.payload.playbackState == 1;
                             const currentApp = m.payload.playerPath.client.bundleIdentifier;
                             // Sends another heartbeat if the playback state changed
-                            if (this._isPlaying !== isPlaying) {
-                                this.sendHeartbeatAsync();
-                            }
-                            if (this._currentApp !== currentApp) {
+                            if (this._isPlaying !== isPlaying || this._currentApp !== currentApp) {
                                 this.sendHeartbeatAsync();
                             }
                         

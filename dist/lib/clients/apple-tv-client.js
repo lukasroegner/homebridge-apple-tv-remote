@@ -218,10 +218,7 @@ var AppleTvClient = /** @class */ (function (_super) {
                                         var isPlaying = m.payload.playbackState == 1;
                                         var currentApp = m.payload.playerPath.client.bundleIdentifier;
                                         // Sends another heartbeat if the playback state changed
-                                        if (_this._isPlaying !== isPlaying) {
-                                            _this.sendHeartbeatAsync();
-                                        }
-                                        if (_this._currentApp !== currentApp) {
+                                        if (_this._isPlaying !== isPlaying || _this._currentApp !== currentApp) {
                                             _this.sendHeartbeatAsync();
                                         }
                                         // Updates the play state
