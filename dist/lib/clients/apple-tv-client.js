@@ -213,7 +213,7 @@ var AppleTvClient = /** @class */ (function (_super) {
                                     }
                                     // Updates the playback state
                                     if (m.payload.playbackState) {
-                                        _this.platform.logger.debug("[" + _this.name + "] Message received: playbackState - " + m.payload.playbackState);
+                                        _this.platform.logger.debug("[" + _this.name + "] Message received: playbackState - " + m.payload.playbackState + " app - " + m.payload.playerPath.client.bundleIdentifier);
                                         // Gets the new playing state
                                         var isPlaying = m.payload.playbackState == 1;
                                         var currentApp = m.payload.playerPath.client.bundleIdentifier;

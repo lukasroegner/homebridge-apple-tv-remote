@@ -139,7 +139,7 @@ export class AppleTvClient extends EventEmitter {
 
                         // Updates the playback state
                         if (m.payload.playbackState) {
-                            this.platform.logger.debug(`[${this.name}] Message received: playbackState - ${m.payload.playbackState}`);
+                            this.platform.logger.debug(`[${this.name}] Message received: playbackState - ${m.payload.playbackState} app - ${m.payload.playerPath.client.bundleIdentifier}`);
 
                             // Gets the new playing state
                             const isPlaying = m.payload.playbackState == 1;
