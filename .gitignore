@@ -6,7 +6,7 @@ node_modules
 .npm
 
 # Build output
-#dist
+dist
 
 # Local configuration
 config.json
