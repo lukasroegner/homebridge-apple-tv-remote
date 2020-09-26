@@ -118,6 +118,9 @@ var AppleTvController = /** @class */ (function () {
                     if (PlayPauseSwitch.bundleIdentifier == client.currentApp) {
                         onCharacteristic.value = client.isPlaying;
                     }
+                    else {
+                        onCharacteristic.value = false;
+                    }
                 });
             });
         }

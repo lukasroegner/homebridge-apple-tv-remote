@@ -92,6 +92,10 @@ export class AppleTvController {
                     {
                         onCharacteristic.value = client.isPlaying;
                     }
+                    else
+                    {
+                        onCharacteristic.value = false;
+                    }
                     
                 });
             });
