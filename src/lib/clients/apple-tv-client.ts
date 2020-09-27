@@ -148,9 +148,9 @@ export class AppleTvClient extends EventEmitter {
 
                         // Updates the playback state
                         if (m.payload.playbackState) {
-                            this.platform.logger.debug(`[${this.name}] Message received: playbackState - ${m.payload.playbackState} app - ${m.payload.playerPath.client.bundleIdentifier}`);
+                            this.platform.logger.debug(`[${this.name}] Message received: playbackState - ${m.payload.playbackState} app - ${m.payload.playerPath?.client?.bundleIdentifier}`);
                             
-                            const currentApp = m.payload.playerPath.client.bundleIdentifier;
+                            const currentApp = m.payload.playerPath?.client?.bundleIdentifier;
                             
                             // Sends another heartbeat if the playback state changed
                             if (this.isPlaying !== this.getIsPlaying(m.payload) || this._currentApp !== currentApp) {
@@ -158,8 +158,7 @@ export class AppleTvClient extends EventEmitter {
                             }
 
                             // Updates current app
-                            if(m.payload.playerPath.client.bundleIdentifier)
-                            {
+                            if(m.payload.playerPath?.client?.bundleIdentifier){
                                 this._currentApp = currentApp;
                             }
                         
@@ -372,7 +371,11 @@ export class AppleTvClient extends EventEmitter {
      * Contains a value that determines whether the Apple TV is playing.
      */
     private _isPlaying: boolean = false;
-    private _currentApp: string = "";
+
+    /**
+     * Contains the bundle identifier of the Apple TV app that reported the last playback state.
+     */
+    private _currentApp: string = '';
 
     /**
      * Gets a value that determines whether the Apple TV is playing.
@@ -380,6 +383,10 @@ export class AppleTvClient extends EventEmitter {
     public get isPlaying(): boolean {
         return this._isPlaying;
     }
+
+    /**
+     * Gets the bundle identifier of the Apple TV app that reported the last playback state.
+     */
     public get currentApp(): string {
         return this._currentApp;
     }

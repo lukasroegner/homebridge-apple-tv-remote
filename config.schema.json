@@ -53,22 +53,27 @@
               "type": "boolean",
               "title": "Enable Play/Pause Switch"
             },
+            "playPauseSwitchName": {
+              "type": "string",
+              "title": "Name of Play/Pause Switch",
+              "placeholder": "Unique Name..."
+            },
             "appPlayPauseSwitches": {
               "type": "array",
-              "title": "Command Switches",
-              "description": "You can provide a list of switches that should be additionally exposed to HomeKit. Those switches are stateless and execute the configured commands.",
+              "title": "App Play Pause Switches",
+              "description": "You can provide a list of switches that should be additionally exposed to HomeKit. Those switches show playing state of the specified bundleIdentifier.",
               "items": {
                 "type": "object",
                 "properties": {
                   "name": {
                     "type": "string",
                     "title": "Name",
-                    "description": "The name of the Play Pause switch. Make sure to use a unique name for the switch (it can be renamed in the Home app afterwards)."
+                    "description": "The name of the app specific play/pause switch. Make sure to use a unique name for the switch (it can be renamed in the Home app afterwards)."
                   },
                   "bundleIdentifier": {
                     "type": "string",
                     "title": "bundleIdentifier",
-                    "description": "The technical name of the app you want to monitor. Put in '*' if you want to monitor all sources."
+                    "description": "The technical name of an app on the AppleTV. This value is reported in the debug information of the plugin. examples: 'com.netflix.Netflix' or 'com.google.ios.youtube'"
                   }
                 }
               }

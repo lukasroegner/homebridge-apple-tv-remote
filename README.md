@@ -72,10 +72,11 @@ npm install -g homebridge-apple-tv-remote
                     "isOnOffTvEnabled": false,
                     "onOffTvName": "<CUSTOM-NAME>",
                     "isPlayPauseSwitchEnabled": false,
+                    "playPauseSwitchName": "<CUSTOM-NAME>",
                     "appPlayPauseSwitches": [
                         {
                             "name": "<BUTTON-NAME>",
-                            "bundleIdentifier": "<APP-NAME> com.netflix.Netflix" 
+                            "bundleIdentifier": "<APP-IDENTIFIER>" 
                         },
 
                     ],
@@ -110,6 +111,8 @@ npm install -g homebridge-apple-tv-remote
 **onOffTvName** (optional): The name of the TV that is displayed in the Home app.
 
 **isPlayPauseSwitchEnabled**: If set to true, a switch is exposed for changing the play state. Defaults to `false`.
+
+**playPauseSwitchName** (optional): Can be used to set the initial name that is displayed in the Home app. Useful for plugins like `homebridge-alexa`, where changing the name in the Home app is not propagated back to homebridge.
 
 **appPlayPauseSwitches** (optional): Can be used to set a list of switches in homebridge to monitor which app is playing. 
 

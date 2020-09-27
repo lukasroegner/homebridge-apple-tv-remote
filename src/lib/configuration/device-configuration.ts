@@ -1,4 +1,5 @@
 import { CommandSwitchConfiguration } from "./command-switch-configuration";
+import { AppPlayPauseSwitchConfiguration } from "./appplaypause-configuration";
 
 /**
  * Represents an Apple TV device in the homebridge configuration for the plugin.
@@ -42,8 +43,13 @@ export interface DeviceConfiguration {
 
     /**
      * Gets or sets the initial name of the Play/Pause switch.
+     */    
+    playPauseSwitchName: string;
+
+    /**
+     * Gets or sets a list of Play/Pause switches that should be additionally exposed to HomeKit.
      */
-    appPlayPauseSwitches: Array<appPlayPauseSwitches>;
+    appPlayPauseSwitches: Array<AppPlayPauseSwitchConfiguration>;
 
     /**
      * Gets or sets a list of command switches that should be additionally exposed to HomeKit.
@@ -51,10 +57,3 @@ export interface DeviceConfiguration {
     commandSwitches: Array<CommandSwitchConfiguration>;
 }
 
-
-export interface appPlayPauseSwitches {
-
-    name: string;
-
-    bundleIdentifier: string;
-}
