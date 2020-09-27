@@ -86,7 +86,7 @@ export class AppleTvController {
                 // Subscribes for events of the client
                 client.on('isPlayingChanged', _ => {
                     platform.logger.debug(`[${deviceConfiguration.name}] Play/pause switch updated to ${client.isPlaying}`);
-                    if(PlayPauseSwitch.bundleIdentifier == client.currentApp)
+                    if(PlayPauseSwitch.bundleIdentifier == client.currentApp || PlayPauseSwitch.bundleIdentifier == "*")
                     {
                         onCharacteristic.value = client.isPlaying;
                     }

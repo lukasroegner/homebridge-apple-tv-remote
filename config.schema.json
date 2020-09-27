@@ -44,10 +44,25 @@
               "type": "boolean",
               "title": "Enable Play/Pause Switch"
             },
-            "playPauseSwitchName": {
-              "type": "string",
-              "title": "Name of Play/Pause Switch",
-              "placeholder": "Unique Name..."
+            "appPlayPauseSwitches": {
+              "type": "array",
+              "title": "Command Switches",
+              "description": "You can provide a list of switches that should be additionally exposed to HomeKit. Those switches are stateless and execute the configured commands.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "title": "Name",
+                    "description": "The name of the Play Pause switch. Make sure to use a unique name for the switch (it can be renamed in the Home app afterwards)."
+                  },
+                  "bundleIdentifier": {
+                    "type": "string",
+                    "title": "bundleIdentifier",
+                    "description": "The technical name of the app you want to monitor. Put in '*' if you want to monitor all sources."
+                  }
+                }
+              }
             },
             "commandSwitches": {
               "type": "array",
