@@ -27,7 +27,7 @@ export class Api {
         server.use((req, res, next) => {
 
             // Checks the token
-            if (!req.headers.authorization || req.headers.authorization !== platform.configuration.apiToken) {
+            if ((!req.headers.authorization || req.headers.authorization !== platform.configuration.apiToken) && (!req.query || !req.query.token || req.query.token !== platform.configuration.apiToken)) {
                 platform.logger.warn(`[API] Token invalid`);
                 return res.sendStatus(401);
             }
@@ -133,6 +133,11 @@ export class Api {
                         }
                     }
                 }
+            }
+            if (req.query && req.query.longPressKey) {
+                await client.longPressKeyAsync(req.query.longPressKey);
+            } else if (req.query && req.query.pressKey) {
+                await client.pressKeyAsync(req.query.pressKey);
             }
 
             // Checks if disconnection is needed (in case events are disabled)

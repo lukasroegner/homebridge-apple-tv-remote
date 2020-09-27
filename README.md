@@ -204,17 +204,25 @@ Commands are executed sequentially. Use `wait` to wait before sending the next c
 
 ### API - Send Commands (Simple)
 
-There is a simple endpoint for clients that do not support POST requests. 
-Use the `/<UNIQUE-NAME>/set` endpoint to send commands to an Apple TV. The HTTP method has to be `GET`.
+There is a simple endpoint for legacy clients that do not support POST requests:
+* Use the `/<UNIQUE-NAME>/set` endpoint to send commands to an Apple TV.
+* The HTTP method has to be `GET`.
+* The token has to be added as a query parameter named `token`
 
 Switch the Apple TV on or off (`<VALUE>` has to be `true` or `false`):
 ```
-http://<YOUR-HOST-IP-ADDRESS>:<apiPort>/<UNIQUE-NAME>/set?isOn=<VALUE>
+http://<YOUR-HOST-IP-ADDRESS>:<apiPort>/<UNIQUE-NAME>/set?isOn=<VALUE>&token=<TOKEN>
 ```
 
 Play/pause the Apple TV (`<VALUE>` has to be `true` or `false`):
 ```
-http://<YOUR-HOST-IP-ADDRESS>:<apiPort>/<UNIQUE-NAME>/set?isPlaying=<VALUE>
+http://<YOUR-HOST-IP-ADDRESS>:<apiPort>/<UNIQUE-NAME>/set?isPlaying=<VALUE>&token=<TOKEN>
+```
+
+Send a single command to the Apple TV (`<VALUE>` has to be one of the supported keys):
+```
+http://<YOUR-HOST-IP-ADDRESS>:<apiPort>/<UNIQUE-NAME>/set?longPressKey=<VALUE>&token=<TOKEN>
+http://<YOUR-HOST-IP-ADDRESS>:<apiPort>/<UNIQUE-NAME>/set?pressKey=<VALUE>&token=<TOKEN>
 ```
 
 # Special Thanks
