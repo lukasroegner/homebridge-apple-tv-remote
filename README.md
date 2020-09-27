@@ -73,6 +73,12 @@ npm install -g homebridge-apple-tv-remote
                     "onOffTvName": "<CUSTOM-NAME>",
                     "isPlayPauseSwitchEnabled": false,
                     "playPauseSwitchName": "<CUSTOM-NAME>",
+                    "appPlayPauseSwitches": [
+                        {
+                            "name": "<BUTTON-NAME>",
+                            "bundleIdentifier": "<APP-IDENTIFIER>" 
+                        },
+                    ],
                     "commandSwitches": [
                         {
                             "name": "<UNIQUE-SWITCH-NAME>",
@@ -106,6 +112,12 @@ npm install -g homebridge-apple-tv-remote
 **isPlayPauseSwitchEnabled**: If set to true, a switch is exposed for changing the play state. Defaults to `false`.
 
 **playPauseSwitchName** (optional): Can be used to set the initial name that is displayed in the Home app. Useful for plugins like `homebridge-alexa`, where changing the name in the Home app is not propagated back to homebridge.
+
+**appPlayPauseSwitches** (optional): Can be used to set a list of switches in homebridge to monitor which app is playing. 
+
+**name**: The name of the Play Pause button. 
+
+**bundleIdentifier**: The technical name of an app on the AppleTV. This value is reported in the debug information of the plugin. examples: "com.netflix.Netflix" or "com.google.ios.youtube"
 
 **commandSwitches** (optional): You can provide a list of switches that should be additionally exposed to HomeKit. Those switches are "stateless" and execute the configured commands.
 
