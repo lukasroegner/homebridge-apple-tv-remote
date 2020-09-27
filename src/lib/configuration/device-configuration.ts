@@ -1,5 +1,5 @@
 import { CommandSwitchConfiguration } from "./command-switch-configuration";
-import { AppPlayPauseSwitchConfiguration } from "./appplaypause-configuration";
+import { AppPlayPauseSwitchConfiguration } from "./app-play-pause-switch-configuration";
 
 /**
  * Represents an Apple TV device in the homebridge configuration for the plugin.

@@ -78,7 +78,6 @@ npm install -g homebridge-apple-tv-remote
                             "name": "<BUTTON-NAME>",
                             "bundleIdentifier": "<APP-IDENTIFIER>" 
                         },
-
                     ],
                     "commandSwitches": [
                         {
