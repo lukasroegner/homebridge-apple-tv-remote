@@ -45,4 +45,14 @@ export interface Configuration {
      * Gets or sets the interval at which heartbeats are sent to the Apple TV in seconds.
      */
 	heartbeatInterval: number;
+    
+    /**
+     * Gets or sets the timeout that is used to dampen the power state.
+     */
+	isOnDampeningTimeout: number;
+    
+    /**
+     * Gets or sets the timeout that is used to dampen the playback state.
+     */
+	isPlayingDampeningTimeout: number;
 }

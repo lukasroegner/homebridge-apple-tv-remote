@@ -51,6 +51,8 @@ export class Platform extends HomebridgePlatform<Configuration> {
         this.configuration.maximumConnectRetry = this.configuration.maximumConnectRetry || 10;
         this.configuration.connectRetryInterval = this.configuration.connectRetryInterval || 5;
         this.configuration.heartbeatInterval = this.configuration.heartbeatInterval || 60;
+        this.configuration.isOnDampeningTimeout = this.configuration.isOnDampeningTimeout || 2;
+        this.configuration.isPlayingDampeningTimeout = this.configuration.isPlayingDampeningTimeout || 1;
 
         // Cycles over all configured devices and creates the corresponding controllers and clients
         if (this.configuration.devices) {
