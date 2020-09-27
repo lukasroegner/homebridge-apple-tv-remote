@@ -40,6 +40,15 @@
               "title": "Name of ON/OFF Switch",
               "placeholder": "Unique Name..."
             },
+            "isOnOffTvEnabled": {
+              "type": "boolean",
+              "title": "Enable ON/OFF TV"
+            },
+            "onOffTvName": {
+              "type": "string",
+              "title": "Name of ON/OFF TV",
+              "placeholder": "Unique Name..."
+            },
             "isPlayPauseSwitchEnabled": {
               "type": "boolean",
               "title": "Enable Play/Pause Switch"

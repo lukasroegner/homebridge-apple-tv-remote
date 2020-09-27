@@ -134,5 +134,49 @@ export class AppleTvController {
                 }
             }
         }
+
+        // Creates the TV accessory if requested
+        if (deviceConfiguration.isOnOffTvEnabled) {
+
+            // Creates the new accessory
+            platform.logger.info(`[${deviceConfiguration.name}] Adding on/off TV`);
+            const onOffTvAccessory = platform.useExternalAccessory(deviceConfiguration.name, client.id, 'OnOffTvAccessory', Homebridge.Categories.APPLE_TV);
+            onOffTvAccessory.setInformation({
+                manufacturer: 'Apple',
+                model: 'Apple TV',
+                serialNumber: client.id,
+                firmwareRevision: null,
+                hardwareRevision: null
+            });
+
+            // Creates the main service
+            const onOffTvService = onOffTvAccessory.useService(Homebridge.Services.Television, deviceConfiguration.onOffTvName || 'Power');
+
+            // Sets the name
+            onOffTvService.useCharacteristic<string>(Homebridge.Characteristics.ConfiguredName, deviceConfiguration.onOffTvName || 'Power');
+
+            // Adds the characteristics for the service
+            const activeCharacteristic = onOffTvService.useCharacteristic<number>(Homebridge.Characteristics.Active);
+            activeCharacteristic.valueChanged = newValue => {
+                if (activeCharacteristic.value !== newValue) {
+                    platform.logger.info(`[${deviceConfiguration.name}] On/off TV changed to ${newValue}`);
+                    try {
+                        if (newValue === Homebridge.Characteristics.Active.ACTIVE) {
+                            client.switchOn();
+                        } else {
+                            client.switchOff();
+                        }
+                    } catch (e) {
+                        platform.logger.warn(`[${deviceConfiguration.name}] failed to change on/off TV to ${newValue}`);
+                    }
+                }
+            };
+
+            // Subscribes for events of the client
+            client.on('isOnChanged', _ => {
+                platform.logger.debug(`[${deviceConfiguration.name}] On/off TV updated to ${client.isOn}`);
+                activeCharacteristic.value = client.isOn ? Homebridge.Characteristics.Active.ACTIVE : Homebridge.Characteristics.Active.INACTIVE;
+            });
+        }
     }
 }

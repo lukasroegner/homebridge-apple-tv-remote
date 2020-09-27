@@ -68,12 +68,12 @@ export class Platform extends HomebridgePlatform<Configuration> {
                     }
 
                     // Creates a new client for the device configuration
-                    if (deviceConfiguration.isOnOffSwitchEnabled || deviceConfiguration.isPlayPauseSwitchEnabled || this.configuration.isApiEnabled || (deviceConfiguration.commandSwitches && deviceConfiguration.commandSwitches.length > 0)) {
+                    if (deviceConfiguration.isOnOffSwitchEnabled || deviceConfiguration.isOnOffTvEnabled || deviceConfiguration.isPlayPauseSwitchEnabled || this.configuration.isApiEnabled || (deviceConfiguration.commandSwitches && deviceConfiguration.commandSwitches.length > 0)) {
                         const appleTvClient = new AppleTvClient(this, deviceConfiguration);
                         this.clients.push(appleTvClient);
 
                         // Creates an Apple TV controller for the device configuration
-                        if (deviceConfiguration.isOnOffSwitchEnabled || deviceConfiguration.isPlayPauseSwitchEnabled || (deviceConfiguration.commandSwitches && deviceConfiguration.commandSwitches.length > 0)) {
+                        if (deviceConfiguration.isOnOffSwitchEnabled || deviceConfiguration.isOnOffTvEnabled || deviceConfiguration.isPlayPauseSwitchEnabled || (deviceConfiguration.commandSwitches && deviceConfiguration.commandSwitches.length > 0)) {
                             const appleTvController = new AppleTvController(this, deviceConfiguration, appleTvClient);
                             this.controllers.push(appleTvController);
                         }
