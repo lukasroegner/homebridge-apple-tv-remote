@@ -1,6 +1,6 @@
 {
   "name": "homebridge-apple-tv-remote",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "Plugin for controlling Apple TVs in homebridge.",
   "license": "MIT",
   "keywords": [

@@ -192,6 +192,21 @@ Each command string can be any of following keys:
 
 Commands are executed sequentially. Use `wait` to wait before sending the next command.
 
+### API - Send Commands (Simple)
+
+There is a simple endpoint for clients that do not support POST requests. 
+Use the `/<UNIQUE-NAME>/set` endpoint to send commands to an Apple TV. The HTTP method has to be `GET`.
+
+Switch the Apple TV on or off (`<VALUE>` has to be `true` or `false`):
+```
+http://<YOUR-HOST-IP-ADDRESS>:<apiPort>/<UNIQUE-NAME>/set?isOn=<VALUE>
+```
+
+Play/pause the Apple TV (`<VALUE>` has to be `true` or `false`):
+```
+http://<YOUR-HOST-IP-ADDRESS>:<apiPort>/<UNIQUE-NAME>/set?isPlaying=<VALUE>
+```
+
 # Special Thanks
 
 Special thanks to stickpin who updated and fixed the original `node-appletv` package.
