@@ -51,6 +51,8 @@ export class Platform extends HomebridgePlatform<Configuration> {
         this.configuration.maximumConnectRetry = this.configuration.maximumConnectRetry || 10;
         this.configuration.connectRetryInterval = this.configuration.connectRetryInterval || 5;
         this.configuration.heartbeatInterval = this.configuration.heartbeatInterval || 60;
+        this.configuration.isOnDampeningTimeout = this.configuration.isOnDampeningTimeout || 2;
+        this.configuration.isPlayingDampeningTimeout = this.configuration.isPlayingDampeningTimeout || 1;
 
         // Cycles over all configured devices and creates the corresponding controllers and clients
         if (this.configuration.devices) {
@@ -66,12 +68,12 @@ export class Platform extends HomebridgePlatform<Configuration> {
                     }
 
                     // Creates a new client for the device configuration
-                    if (deviceConfiguration.isOnOffSwitchEnabled || deviceConfiguration.isPlayPauseSwitchEnabled || this.configuration.isApiEnabled || (deviceConfiguration.commandSwitches && deviceConfiguration.commandSwitches.length > 0)) {
+                    if (deviceConfiguration.isOnOffSwitchEnabled || deviceConfiguration.isOnOffTvEnabled || deviceConfiguration.isPlayPauseSwitchEnabled || this.configuration.isApiEnabled || (deviceConfiguration.commandSwitches && deviceConfiguration.commandSwitches.length > 0)) {
                         const appleTvClient = new AppleTvClient(this, deviceConfiguration);
                         this.clients.push(appleTvClient);
 
                         // Creates an Apple TV controller for the device configuration
-                        if (deviceConfiguration.isOnOffSwitchEnabled || deviceConfiguration.isPlayPauseSwitchEnabled || (deviceConfiguration.commandSwitches && deviceConfiguration.commandSwitches.length > 0)) {
+                        if (deviceConfiguration.isOnOffSwitchEnabled || deviceConfiguration.isOnOffTvEnabled || deviceConfiguration.isPlayPauseSwitchEnabled || (deviceConfiguration.commandSwitches && deviceConfiguration.commandSwitches.length > 0)) {
                             const appleTvController = new AppleTvController(this, deviceConfiguration, appleTvClient);
                             this.controllers.push(appleTvController);
                         }

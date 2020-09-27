@@ -61,7 +61,7 @@ export class AppleTvClient extends EventEmitter {
     }
 
     /**
-     * Tries to get the on/off state of the Apple TV
+     * Tries to get the on/off state of the Apple TV.
      * @param messagePayload The message payload that contains the information to check whether the Apple TV is on.
      * @returns Returns a value that determines whether the Apple TV is on.
      */
@@ -77,6 +77,17 @@ export class AppleTvClient extends EventEmitter {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Tries to get the play/pause state of the Apple TV.
+     * @param messagePayload The message payload that contains the information to check whether the Apple TV is playing.
+     * @returns Returns a value that determines whether the Apple TV is playing.
+     */
+    private getIsPlaying(messagePayload: any): boolean {
+
+        // Gets the new playing state
+        return messagePayload.playbackState == 1;
     }
 
     /**
@@ -127,41 +138,36 @@ export class AppleTvClient extends EventEmitter {
                         // Updates the power state
                         if (m.payload.logicalDeviceCount === 0 || m.payload.logicalDeviceCount > 0) {
                             this.platform.logger.debug(`[${this.name}] Message received: logicalDeviceCount - ${m.payload.logicalDeviceCount} | isProxyGroupPlayer - ${m.payload.isProxyGroupPlayer} | isAirplayActive - ${m.payload.isAirplayActive}`);
-                            this._isOn = this.getIsOn(m.payload);
-                            this.emit('isOnChanged');
+                            this.updateIsOn(this.getIsOn(m.payload));
 
                             // If the Apple TV has switched off, the play state should also be off
-                            if (!this._isOn) {
-                                this._isPlaying = false;
-                                this.emit('isPlayingChanged');
+                            if (!this.getIsOn(m.payload)) {
+                                this.updateIsPlaying(false);
                             }
                         }
 
                         // Updates the playback state
                         if (m.payload.playbackState) {
                             this.platform.logger.debug(`[${this.name}] Message received: playbackState - ${m.payload.playbackState} app - ${m.payload.playerPath.client.bundleIdentifier}`);
-
-                            // Gets the new playing state
-                            const isPlaying = m.payload.playbackState == 1;
+                            
                             const currentApp = m.payload.playerPath.client.bundleIdentifier;
+                            
                             // Sends another heartbeat if the playback state changed
-                            if (this._isPlaying !== isPlaying || this._currentApp !== currentApp) {
+                            if (this.isPlaying !== this.getIsPlaying(m.payload) || this._currentApp !== currentApp) {
                                 this.sendHeartbeatAsync();
                             }
-                        
-                            // Updates the play state
-                            if(m.payload.playbackState == 1)
-                            {
-                                this._isPlaying = isPlaying;
-                            }
+
                             // Updates current app
                             if(m.payload.playerPath.client.bundleIdentifier)
                             {
                                 this._currentApp = currentApp;
                             }
-                            
-                            this.emit('isPlayingChanged');
+                        
+                            // Updates the play state
+                            this.updateIsPlaying(this.getIsPlaying(m.payload));
                         }
+                           
+
                     }
                 });
             }
@@ -266,6 +272,55 @@ export class AppleTvClient extends EventEmitter {
     }
 
     /**
+     * Contains the timeout handle which is used to prevent flickering of the on state (which appears if the Apple TV switches its state and does report an unstable state).
+     * This mechanism is "dampening" the state.
+     */
+    private updateIsOnTimeoutHandle: any = null;
+
+    /**
+     * Updates the on/off state.
+     * @param value The new value of the on/off state.
+     */
+    private updateIsOn(value: boolean) {
+        this.platform.logger.debug(`[${this.name}] Update power state to ${value}`);
+
+        // If the handle is not null, this means that the last change is less than X seconds ago
+        // In this case, the update of the state cannot be safely done, as it is seen as unstable
+        if (this.updateIsOnTimeoutHandle) {
+            this.platform.logger.debug(`[${this.name}] Update power state to ${value}: dampening`);
+
+            // Clears the previous timeout and sets the new one for the updated value
+            clearTimeout(this.updateIsOnTimeoutHandle);
+            this.updateIsOnTimeoutHandle = setTimeout(() => {
+                this.platform.logger.debug(`[${this.name}] Update power state to ${value}: dampening timeout elapsed`);
+                clearTimeout(this.updateIsOnTimeoutHandle);
+                this.updateIsOnTimeoutHandle = null;
+
+                // Calls the update method again
+                this.updateIsOn(value);
+            }, this.platform.configuration.isOnDampeningTimeout * 1000);
+            return;
+        }
+
+        // Checks if the value actually differs from the current value
+        if (this._isOn === value) {
+            this.platform.logger.debug(`[${this.name}] Update power state to ${value}: value not changed`);
+            return;
+        }
+
+        // Updates the current value
+        this._isOn = value;
+        this.emit('isOnChanged');
+
+        // Creates a new timeout to prevent changes of the value within the next X seconds
+        this.platform.logger.debug(`[${this.name}] Update power state to ${value}: value changed`);
+        this.updateIsOnTimeoutHandle = setTimeout(() => {
+            clearTimeout(this.updateIsOnTimeoutHandle);
+            this.updateIsOnTimeoutHandle = null;
+        }, this.platform.configuration.isOnDampeningTimeout * 1000);
+    }
+
+    /**
      * Gets a value that determines whether the Apple TV is powered on.
      * @param retryCount The number of retries that are left.
      */
@@ -327,6 +382,55 @@ export class AppleTvClient extends EventEmitter {
     }
     public get currentApp(): string {
         return this._currentApp;
+    }
+
+    /**
+     * Contains the timeout handle which is used to prevent flickering of the on state (which appears if the Apple TV switches its state and does report an unstable state).
+     * This mechanism is "dampening" the state.
+     */
+    private updateIsPlayingTimeoutHandle: any = null;
+
+    /**
+     * Updates the playing state.
+     * @param value The new value of the playing state.
+     */
+    private updateIsPlaying(value: boolean) {
+        this.platform.logger.debug(`[${this.name}] Update playback state to ${value}`);
+
+        // If the handle is not null, this means that the last change is less than X seconds ago
+        // In this case, the update of the state cannot be safely done, as it is seen as unstable
+        if (this.updateIsPlayingTimeoutHandle) {
+            this.platform.logger.debug(`[${this.name}] Update playback state to ${value}: dampening`);
+
+            // Clears the previous timeout and sets the new one for the updated value
+            clearTimeout(this.updateIsPlayingTimeoutHandle);
+            this.updateIsPlayingTimeoutHandle = setTimeout(() => {
+                this.platform.logger.debug(`[${this.name}] Update playback state to ${value}: dampening timeout elapsed`);
+                clearTimeout(this.updateIsPlayingTimeoutHandle);
+                this.updateIsPlayingTimeoutHandle = null;
+
+                // Calls the update method again
+                this.updateIsPlaying(value);
+            }, this.platform.configuration.isPlayingDampeningTimeout * 1000);
+            return;
+        }
+
+        // Checks if the value actually differs from the current value
+        if (this._isPlaying === value) {
+            this.platform.logger.debug(`[${this.name}] Update playback state to ${value}: value not changed`);
+            return;
+        }
+
+        // Updates the current value
+        this._isPlaying = value;
+        this.emit('isPlayingChanged');
+
+        // Creates a new timeout to prevent changes of the value within the next X seconds
+        this.platform.logger.debug(`[${this.name}] Update playback state to ${value}: value changed`);
+        this.updateIsPlayingTimeoutHandle = setTimeout(() => {
+            clearTimeout(this.updateIsPlayingTimeoutHandle);
+            this.updateIsPlayingTimeoutHandle = null;
+        }, this.platform.configuration.isPlayingDampeningTimeout * 1000);
     }
 
     /**

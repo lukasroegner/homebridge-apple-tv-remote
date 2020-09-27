@@ -4,11 +4,15 @@
 
 ## About
 
-Plugin for controlling Apple TVs in homebridge. Each Apple TV can be turned on/off via a switch. Additionally, a play/pause switch is exposed to HomeKit.
+Plugin for controlling Apple TVs in homebridge. Each Apple TV can be turned on/off via a switch. 
+Additionally, a play/pause switch is exposed to HomeKit.
 
 Supported models are:
 * Apple TV HD (Apple TV 4)
 * Apple TV 4K
+
+
+The plugin also supports exporting the on/off switch as a TV accessory (you have to add the TV accessory manually to HomeKit, as it is exposed as external accessory).
 
 ## Generate credentials for Apple TVs
 
@@ -65,6 +69,8 @@ npm install -g homebridge-apple-tv-remote
                     "credentials": "<CREDENTIALS>",
                     "isOnOffSwitchEnabled": false,
                     "onOffSwitchName": "<CUSTOM-NAME>",
+                    "isOnOffTvEnabled": false,
+                    "onOffTvName": "<CUSTOM-NAME>",
                     "isPlayPauseSwitchEnabled": false,
                     "appPlayPauseSwitches": [
                         {
@@ -98,6 +104,10 @@ npm install -g homebridge-apple-tv-remote
 **isOnOffSwitchEnabled**: If set to true, a switch is exposed for changing on/off of the Apple TV. Defaults to `false`.
 
 **onOffSwitchName** (optional): Can be used to set the initial name that is displayed in the Home app. Useful for plugins like `homebridge-alexa`, where changing the name in the Home app is not propagated back to homebridge.
+
+**isOnOffTvEnabled**: If set to true, a TV accessory is exposed for changing on/off of the Apple TV. Defaults to `false`.
+
+**onOffTvName** (optional): The name of the TV that is displayed in the Home app.
 
 **isPlayPauseSwitchEnabled**: If set to true, a switch is exposed for changing the play state. Defaults to `false`.
 
@@ -201,6 +211,21 @@ Each command string can be any of following keys:
 * `select`
 
 Commands are executed sequentially. Use `wait` to wait before sending the next command.
+
+### API - Send Commands (Simple)
+
+There is a simple endpoint for clients that do not support POST requests. 
+Use the `/<UNIQUE-NAME>/set` endpoint to send commands to an Apple TV. The HTTP method has to be `GET`.
+
+Switch the Apple TV on or off (`<VALUE>` has to be `true` or `false`):
+```
+http://<YOUR-HOST-IP-ADDRESS>:<apiPort>/<UNIQUE-NAME>/set?isOn=<VALUE>
+```
+
+Play/pause the Apple TV (`<VALUE>` has to be `true` or `false`):
+```
+http://<YOUR-HOST-IP-ADDRESS>:<apiPort>/<UNIQUE-NAME>/set?isPlaying=<VALUE>
+```
 
 # Special Thanks
 

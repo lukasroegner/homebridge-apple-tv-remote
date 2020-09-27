@@ -26,6 +26,16 @@ export interface DeviceConfiguration {
     onOffSwitchName: string;
 
     /**
+     * Gets or sets a value that determines whether an On/Off TV accessory is exposed to HomeKit.
+     */
+    isOnOffTvEnabled: boolean;
+
+    /**
+     * Gets or sets the name of the On/Off TV accessory.
+     */
+    onOffTvName: string;
+
+    /**
      * Gets or sets a value that determines whether a Play/Pause switch is exposed to HomeKit.
      */
     isPlayPauseSwitchEnabled: boolean;
