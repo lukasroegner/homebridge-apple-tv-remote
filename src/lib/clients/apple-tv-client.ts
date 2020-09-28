@@ -160,6 +160,7 @@ export class AppleTvClient extends EventEmitter {
                             // Updates current app
                             if(m.payload.playerPath?.client?.bundleIdentifier){
                                 this._currentApp = currentApp;
+                                this.platform.logger.info(`[${this.name}] Current bundleIdentifier is now: ${m.payload.playerPath?.client?.bundleIdentifier}`);
                             }
                         
                             // Updates the play state
