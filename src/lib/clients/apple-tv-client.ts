@@ -164,9 +164,7 @@ export class AppleTvClient extends EventEmitter {
                         
                             // Updates the play state
                             this.updateIsPlaying(this.getIsPlaying(m.payload));
-                        }
-                           
-
+                        } 
                     }
                 });
             }
@@ -439,6 +437,22 @@ export class AppleTvClient extends EventEmitter {
             this.updateIsPlayingTimeoutHandle = null;
         }, this.platform.configuration.isPlayingDampeningTimeout * 1000);
     }
+
+    /**
+     * Gets a value that determines whether the Apple TV is playing.
+     * @param retryCount The number of retries that are left.
+     */
+    public async getCurrentAppAsync(): Promise<string> {
+        this.platform.logger.info(`[${this.name}] Getting current app...`);
+
+        // If events are enabled, the value is already cached
+        if (this.areEventsEnabled) {
+            this.platform.logger.info(`[${this.name}] Returning cached value ${this.currentApp} for current app`);
+            return this.currentApp;
+        } else {
+            return ''
+        }
+    };
 
     /**
      * Gets a value that determines whether the Apple TV is playing.

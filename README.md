@@ -117,7 +117,7 @@ npm install -g homebridge-apple-tv-remote
 
 **name**: The name of the Play Pause button. 
 
-**bundleIdentifier**: The technical name of an app on the AppleTV. This value is reported in the debug information of the plugin. examples: "com.netflix.Netflix" or "com.google.ios.youtube"
+**bundleIdentifier**: The technical name of an app on the Apple TV. This value is reported in the debug information of the plugin. Known bundleIdentifier: "com.netflix.Netflix", "com.google.ios.youtube" and the default apps of the Apple TV: https://support.apple.com/en-us/guide/mdm/mdmc90dce69e/web Please be aware this value is case sensitive. 
 
 **commandSwitches** (optional): You can provide a list of switches that should be additionally exposed to HomeKit. Those switches are "stateless" and execute the configured commands.
 
@@ -158,6 +158,7 @@ The response body will be JSON:
 {
     "isOn": true|false,
     "isPlaying": true|false
+    "currentApp": "<bundleIdentifier>"
 }
 ```
 

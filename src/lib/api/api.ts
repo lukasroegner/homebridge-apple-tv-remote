@@ -69,6 +69,7 @@ export class Api {
             const appleTv = new AppleTv();
             appleTv.isOn = await client.isOnAsync();
             appleTv.isPlaying = await client.isPlayingAsync();
+            appleTv.currentApp = await client.getCurrentAppAsync();
 
             // Checks if disconnection is needed (in case events are disabled)
             if (!client.areEventsEnabled) {
