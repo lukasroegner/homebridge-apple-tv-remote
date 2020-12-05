@@ -137,7 +137,7 @@ export class AppleTvClient extends EventEmitter {
 
                         // Updates the power state
                         if (m.payload.logicalDeviceCount === 0 || m.payload.logicalDeviceCount > 0) {
-                            this.platform.logger.debug(`[${this.name}] Message received: logicalDeviceCount - ${m.payload.logicalDeviceCount} | isProxyGroupPlayer - ${m.payload.isProxyGroupPlayer} | isAirplayActive - ${m.payload.isAirplayActive}`);
+                            this.platform.logger.debug(`[${this.name}] Message received: logicalDeviceCount - ${m.payload.logicalDeviceCount} | isProxyGroupPlayer - ${m.payload.isProxyGroupPlayer} | isAirplayActive - ${m.payload.isAirplayActive} | isGroupLeader - ${m.payload.isGroupLeader} | airplayReceivers - ${m.payload.airplayReceivers}`);
                             this.updateIsOn(this.getIsOn(m.payload));
 
                             // If the Apple TV has switched off, the play state should also be off
