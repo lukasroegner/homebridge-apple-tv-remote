@@ -2,7 +2,7 @@
 import { Platform } from '../platform';
 import { DeviceConfiguration } from '../configuration/device-configuration';
 import { AppleTvClient } from '../clients/apple-tv-client';
-import { Homebridge } from 'homebridge-framework';
+import { Accessory, Homebridge } from 'homebridge-framework';
 
 /**
  * Represents a controller for an Apple TV. Controllers represent physical Apple TVs in HomeKit.
@@ -22,8 +22,9 @@ export class AppleTvController {
         client.areEventsEnabled = true;
 
         // Creates the accessory
+        let accessory: Accessory|null = null;
         if (deviceConfiguration.isOnOffSwitchEnabled || deviceConfiguration.isPlayPauseSwitchEnabled || (deviceConfiguration.appPlayPauseSwitches && deviceConfiguration.appPlayPauseSwitches.length > 0) || (deviceConfiguration.commandSwitches && deviceConfiguration.commandSwitches.length > 0) ) {
-            const accessory = platform.useAccessory(deviceConfiguration.name, client.id);
+            accessory = platform.useAccessory(deviceConfiguration.name, client.id);
             accessory.setInformation({
                 manufacturer: 'Apple',
                 model: 'Apple TV',
@@ -34,7 +35,7 @@ export class AppleTvController {
         }
 
         // Creates the On/Off switch if requested
-        if (deviceConfiguration.isOnOffSwitchEnabled) {
+        if (accessory && deviceConfiguration.isOnOffSwitchEnabled) {
             platform.logger.info(`[${deviceConfiguration.name}] Adding on/off switch`);
             const onOffSwitchService = accessory.useService(Homebridge.Services.Switch, deviceConfiguration.onOffSwitchName || 'Power', 'on-off-switch');
 
@@ -63,7 +64,7 @@ export class AppleTvController {
         }
 
         // Creates the Play/Pause switch if requested
-        if (deviceConfiguration.isPlayPauseSwitchEnabled) {
+        if (accessory && deviceConfiguration.isPlayPauseSwitchEnabled) {
             platform.logger.info(`[${deviceConfiguration.name}] Adding play/pause switch`);
             const playPauseSwitchService = accessory.useService(Homebridge.Services.Switch, deviceConfiguration.playPauseSwitchName || 'Play', 'play-pause-switch');
 
@@ -92,7 +93,7 @@ export class AppleTvController {
         }
 
         // Creates the App specific Play/Pause switch if requested
-        if (deviceConfiguration.appPlayPauseSwitches && deviceConfiguration.appPlayPauseSwitches.length > 0) {
+        if (accessory && deviceConfiguration.appPlayPauseSwitches && deviceConfiguration.appPlayPauseSwitches.length > 0) {
             platform.logger.info(`[${deviceConfiguration.name}] Adding play/pause switch`);
             for (let appPlayPauseSwitchConfiguration of deviceConfiguration.appPlayPauseSwitches) {
                 const playPauseSwitchService = accessory.useService(Homebridge.Services.Switch, appPlayPauseSwitchConfiguration.name || 'Play', `${appPlayPauseSwitchConfiguration.name}-Status`);
@@ -128,7 +129,7 @@ export class AppleTvController {
         }
 
         // Creates the command switches if requested
-        if (deviceConfiguration.commandSwitches && deviceConfiguration.commandSwitches.length > 0) {
+        if (accessory && deviceConfiguration.commandSwitches && deviceConfiguration.commandSwitches.length > 0) {
             for (let commandSwitchConfiguration of deviceConfiguration.commandSwitches) {
                 if (commandSwitchConfiguration.name) {
                     platform.logger.info(`[${deviceConfiguration.name}] Adding command switch ${commandSwitchConfiguration.name}`);
