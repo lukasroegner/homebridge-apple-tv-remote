@@ -22,14 +22,16 @@ export class AppleTvController {
         client.areEventsEnabled = true;
 
         // Creates the accessory
-        const accessory = platform.useAccessory(deviceConfiguration.name, client.id);
-        accessory.setInformation({
-            manufacturer: 'Apple',
-            model: 'Apple TV',
-            serialNumber: client.id,
-            firmwareRevision: null,
-            hardwareRevision: null
-        });
+        if (deviceConfiguration.isOnOffSwitchEnabled || deviceConfiguration.isPlayPauseSwitchEnabled || (deviceConfiguration.appPlayPauseSwitches && deviceConfiguration.appPlayPauseSwitches.length > 0) || (deviceConfiguration.commandSwitches && deviceConfiguration.commandSwitches.length > 0) ) {
+            const accessory = platform.useAccessory(deviceConfiguration.name, client.id);
+            accessory.setInformation({
+                manufacturer: 'Apple',
+                model: 'Apple TV',
+                serialNumber: client.id,
+                firmwareRevision: null,
+                hardwareRevision: null
+            });
+        }
 
         // Creates the On/Off switch if requested
         if (deviceConfiguration.isOnOffSwitchEnabled) {
