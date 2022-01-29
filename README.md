@@ -1,6 +1,14 @@
 # homebridge-apple-tv-remote
 
-**IMPORTANT**: This plugin is still in development and hasn't reached a stable state. It is recommended to install it in a separate Homebridge instance. Take a look at the issue [#46](https://github.com/lukasroegner/homebridge-apple-tv-remote/issues/46) to check the current state of bugfix.
+## ⚠️ Deprecation notice - plugin archived
+
+Starting with tvOS 15, the underlying technology that this plugin uses for communicating with Apple TVs does no longer work. I would like to thank the community for coming up with new ideas and solutions to integrate Apple TVs into HomeKit.
+
+If you want to remote control Apple TVs, HomePods and more, please take a look at [pyatv](https://github.com/postlund/pyatv). [Pierre Ståhl](https://github.com/postlund) did an amazing job with his project. It supports multiple protocols that can be used to remote control Apple devices.
+
+Based on the command line tool `atvremote` that ships with [pyatv](https://github.com/postlund/pyatv), multiple solutions have been developed that you might want to try out:
+- The homebridge plugin [homebridge-cmd-television](https://github.com/NorthernMan54/homebridge-cmd-television)
+- Using [homebridge-cmd4](https://github.com/ztalbot2000/homebridge-cmd4) and some bash scripts that utilize `atvremote` ([here](https://github.com/cristian5th/homebridge-appletv) you can find instructions and a pre-built bash script to start with)
 
 ## About
 
